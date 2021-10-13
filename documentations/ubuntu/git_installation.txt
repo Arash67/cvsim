@@ -1,0 +1,6 @@
+install git in ubuntu
+1- go to: https://git-scm.com/
+2- hit download which gets you to: https://git-scm.com/download/linux
+3- follow the instructions. it basically just ask you to open ubuntu temrinal (alt+ctrl+T) > write "sudo apt-get install git" > enter your ubuntu pass
+NOTE: video tutorial for further steps regarding git configuration: https://www.youtube.com/watch?v=ZMgLZUYd8Cw 
+NOTE: it's fatser to use git through terminal but apps like GitHub-desktopn are also available with user-friendly GUI but they are supper slow!!!
