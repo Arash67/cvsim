@@ -20,5 +20,5 @@ NOTE: you need to save your token somewhere safe in a *.txt file and then use it
 
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-- to add new folder gor to the parent directory and then:			mkdie foldername
+- to add new folder go to the parent directory and then:			mkdir foldername
 NOTE: to update the origin/main on github website you have to add at least one readme.txt file inside the folder then do the steps: git status > git add file > git commit > git push which are explained above												
