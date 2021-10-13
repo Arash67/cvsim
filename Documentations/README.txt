@@ -1,1 +1,1 @@
-This folder is for any documentation and tutorial source for python scripting and SimVascular 
+This folder is for any documentation and tutorial for python scripting and SimVascular 
