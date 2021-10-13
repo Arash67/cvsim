@@ -11,4 +11,4 @@ NOTE: the flag "-m" is to activate comment mode so you can add comment with the 
 
 - push the commited updates to original repository in github.com:	git push -u origin main(or other branch names)
 NOTE: you will be prompt to enter github username and password
-  
+NOTE: if you have not activated your two-factor authentication on GitHub, you will be given the link to instructions to activate it first because password authorization is no longer avaiable for git commands.  
