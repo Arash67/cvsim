@@ -1,0 +1,12 @@
+here are some usefull commands to be used in git:
+- create new file: "touch filename.extension"
+if the repository is configured already (see Git_GitHub_installation.txt), use the following commands to get status, update the original online repository on github according to the last changes done locally on your computer
+
+- get status: 														git status
+
+- add updates to git:												got add filename.extension
+
+- commit updates to original repository in github.com:				git commit -m "COMMENTS GO HERE"
+NOTE: the flag "-m" is to activate comment mode so you can add comment with the commit you are submiting
+
+  
