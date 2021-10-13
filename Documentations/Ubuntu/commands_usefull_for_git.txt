@@ -6,7 +6,9 @@ if the repository is configured already (see Git_GitHub_installation.txt), use t
 
 - add updates to git:												got add filename.extension
 
-- commit updates to original repository in github.com:				git commit -m "COMMENTS GO HERE" filenam.extension
+- commit updates:													git commit -m "COMMENTS GO HERE" filenam.extension
 NOTE: the flag "-m" is to activate comment mode so you can add comment with the commit you are submiting
 
+- push the commited updates to original repository in github.com:	git push -u origin main(or other branch names)
+NOTE: you will be prompt to enter github username and password
   
