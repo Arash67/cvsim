@@ -16,6 +16,6 @@ NOTE: once 2FA is activated, you need to generate a personal access token as des
 
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-and then use the generated token as password wile using user-pass requiring git commands; see the example in here: 
+NOTE: you need to save your token somewhere safe in a *.txt file and then use it your as password for userpass-requiring git commands; see the example in here: 
 
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
