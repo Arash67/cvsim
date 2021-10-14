@@ -4,7 +4,7 @@
 # tuning boundary conditions to match target hemodynamic values in cardiovascilar simulations
 # 
 # NOTE: to start, please create a SimVascular project and run this script in the python console  
-# NOTE: this script assumes the cvsim repository is mounted on an ubuntu os in the following directory: /home/ubuntu_username/github/
+# NOTE: this script assumes the cvsim repository is mounted on an ubuntu os in the following directory: (/home/ubuntu_username/github/) please see line 38 as an example
 # NOTE: for information regarding how to mount github repository on local computer please read the git_installation.txt file in cvsim/documentations/ubuntu/git_installation.txt
 
 # NOTE: You will need SimVascular installed on Ubuntu (for windows users its most easy through hyper-v manager),
@@ -33,8 +33,9 @@
 # B1: get the home directory
 # NOTE: add Path from pathlib, add additional notes heare if needed
 from pathlib import Path
+# define the local home and repository directories 
 home = str(Path.home())
-
+cvsim = home + "/guthub/cvsim/"
 # B2: modules
 # B2a: import sv module that allows access to simvascular modeling pipeline which is available in gui 
 import sv
@@ -46,11 +47,11 @@ import sys
 import vtk
 # B2e: import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
 # NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
-graphics_dir                = home + "/Desktop/SimVasSim/inputfiles/modules/graphics/"
+graphics_dir                = cvsim + "modules/graphics/"
 try:
     sys.path.insert(1, graphics_dir)
 except:
-    print("Can't find the new-api-tests/graphics package. See the notes within the code. Check the simvascular repository (Github) for the graphics package!")
+    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
 # import graphics module
 import graphics as gr
 # set the view point parameters and renderer
@@ -61,37 +62,60 @@ renderer, renderer_window = gr.init_graphics(win_width, win_height)
 # B3: input file directories
 # NOTE: all paths are defined relative to the *.py script location. so its important to keep the same foldering format used here
 
-# Terminology:----------------------------------------------------------
-#                       dir refers to folder (e.g. home/agh) 
-#                       fulldir refers to file (e.g. home/agh/aorta.pth)
-#-----------------------------------------------------------------------
+# Terminology:--------------------------------------------------------------------------------------------------------------------
+#                       dir refers to folder directory in cvsim (e.g. "documentations/ubuntu/") 
+#                       name refers to file name (e.g. "git_installation.txt")
+#                       fulldir refers to full directory (e.g. "home/agh/github/cvsim/documentations/ubuntu/git_installation.txt)
+#---------------------------------------------------------------------------------------------------------------------------------
+input_dir                    = "data/input/"
+output_dir                   = "data/output/"
 
 # B3a: *.py script fulldir
-script_fulldir              = home + "/Desktop/SimVasSim/GenModel/R32181/inputfiles/scripts/R32181.py"
-script_dir                  = script_fulldir.parent
-parent_dir                  = script_dir.parent
-data_dir                    = parent_dir /
-# B3b: input path files (*.pth ) directories
+script_name                 = "oneD_generalized_rabbit.py"
+script_dir                  = "oneD/"
+script_fulldir              = cvsim + script_dir + script_name
+print("script full directory:")
+print(script_fulldir)
 
-AO_path_fullname            = home + "/Desktop/SimVasSim/inputfiles/R32181/paths/P01AA.pth"  
-RS_path_fullname            = home + "/Desktop/SimVasSim/inputfiles/R32181/paths/P02RS.pth"
-RC_path_fullname            = home + "/Desktop/SimVasSim/inputfiles/R32181/paths/P03RC.pth"
-LC_path_fullname            = home + "/Desktop/SimVasSim/inputfiles/R32181/paths/P04LC.pth"
-LS_path_fullname            = home + "/Desktop/SimVasSim/inputfiles/R32181/paths/P05LS.pth"
-script_path                 = Path(os.path.realpath(AO_path_fullname)).parent
-parent_path                 = Path(os.path.realpath(AO_path_fullname)).parent.parent
-data_path                   = parent_path / 'data'
+# B3b: input path files (*.pth ) directories: all inputs are in data folder
+AO_path_name                = "control_rabbit_32181_P01AA.pth"  
+RS_path_name                = "control_rabbit_32181_P02RS.pth"
+RC_path_name                = "control_rabbit_32181_P03RC.pth"
+LC_path_name                = "control_rabbit_32181_P04LC.pth"
+LS_path_name                = "control_rabbit_32181_P05LS.pth"
 
-print(AO_path_fullname)
-print(script_path)
-print(parent_path)
-print(data_path)
+AO_path_fulldir             = input_dir + AO_path_name
+RS_path_fulldir             = input_dir + RS_path_name
+RC_path_fulldir             = input_dir + RC_path_name
+LC_path_fulldir             = input_dir + LC_path_name
+LS_path_fulldir             = input_dir + LS_path_name
+
+print("imported path directories:")
+print(AO_path_fulldir)
+print(RS_path_fulldir)
+print(RC_path_fulldir)
+print(LC_path_fulldir)
+print(LS_path_fulldir)
+
 # B3: input segmentation files(*.ctgr) full directories
-AO_seg_fullname             = home + "/Desktop/SimVasSim/inputfiles/R32181/segmentations/S01AO.ctgr"
-RS_seg_fullname             = home + "/Desktop/SimVasSim/inputfiles/R32181/segmentations/S02RS.ctgr"
-RC_seg_fullname             = home + "/Desktop/SimVasSim/inputfiles/R32181/segmentations/S03RC.ctgr"
-LC_seg_fullname             = home + "/Desktop/SimVasSim/inputfiles/R32181/segmentations/S04LC.ctgr"
-LS_seg_fullname             = home + "/Desktop/SimVasSim/inputfiles/R32181/segmentations/S05LS.ctgr"
+AO_seg_name                = "control_rabbit_32181_S01AA.ctgr"  
+RS_seg_name                = "control_rabbit_32181_S02RS.ctgr"
+RC_seg_name                = "control_rabbit_32181_S03RC.ctgr"
+LC_seg_name                = "control_rabbit_32181_S04LC.ctgr"
+LS_seg_name                = "control_rabbit_32181_S05LS.ctgr"
+
+AO_seg_fulldir             = input_dir + AO_seg_name
+RS_seg_fulldir             = input_dir + RS_seg_name
+RC_seg_fulldir             = input_dir + RC_seg_name
+LC_seg_fulldir             = input_dir + LC_seg_name
+LS_seg_fulldir             = input_dir + LS_seg_name
+
+print("imported segmentation directories:")
+print(AO_seg_fulldir)
+print(RS_seg_fulldir)
+print(RC_seg_fulldir)
+print(LC_seg_fulldir)
+print(LS_seg_fulldir)
 
 # C:======================================================= PATHS
 
