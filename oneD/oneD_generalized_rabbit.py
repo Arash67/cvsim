@@ -78,7 +78,7 @@ print("script full directory:")
 print(script_fulldir)
 
 # B3b: input path files (*.pth ) directories: all inputs are in data folder
-AO_path_name                = "control_rabbit_32181_P01AA.pth"  
+AO_path_name                = "control_rabbit_32181_P01AO.pth"  
 RS_path_name                = "control_rabbit_32181_P02RS.pth"
 RC_path_name                = "control_rabbit_32181_P03RC.pth"
 LC_path_name                = "control_rabbit_32181_P04LC.pth"
