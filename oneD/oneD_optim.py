@@ -53,3 +53,20 @@ script_dir                  = "oneD/"
 script_fulldir              = cvsim + script_dir + script_name
 print("script full directory:")
 print(script_fulldir)
+
+## Create a ROM simulation.
+rom_simulation = sv.simulation.ROM() 
+
+## Create ROM simulation parameters.
+params = sv.simulation.ROMParameters()
+
+## Mesh parameters.
+mesh_params = params.MeshParameters()
+
+
+## Model parameters.
+model_params = params.ModelParameters()
+model_params.name = "demo-oneD"
+model_params.inlet_face_names = ['cap_aorta' ] 
+model_params.outlet_face_names = ['cap_right_iliac', 'cap_aorta_2' ] 
+model_params.centerlines_file_name = cvsim + input_dir + 'demo-oneD-centerlines.vtp' 
