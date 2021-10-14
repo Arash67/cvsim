@@ -85,13 +85,16 @@ path_names = ["control_rabbit_32181_P01AO.pth",
               "control_rabbit_32181_P03RC.pth",
               "control_rabbit_32181_P04LC.pth",
               "control_rabbit_32181_P05LS.pth"]
-
+path_names = ["demo-aorta.pth"]
 # B3: input segmentation file names(*.ctgr)
+'''
 seg_names = ["control_rabbit_32181_S01AO.ctgr",
              "control_rabbit_32181_S02RS.ctgr",
              "control_rabbit_32181_S03RC.ctgr",
              "control_rabbit_32181_S04LC.ctgr",
              "control_rabbit_32181_S05LS.ctgr"]
+'''
+seg_names = ["demo-spline-poly.ctgr"]
 
 # C:======================================================= FUNCTIONS
 def get_profile_contour(gr, renderer, contours, cid, npts):
@@ -133,7 +136,6 @@ def mdl_union_all(modeler,mdls):
 svpathnames                 = ["P01AO","P02RS","P03RC","P04LC","P05LS"]
 svsegnames                  = ["S01AO","S02RS","S03RC","S04LC","S05LS"]
 
-rng                         = range(len(seg_names))
 mdl                         = []
 curve_list                  = [] 
 start_cid                   = 0
@@ -149,6 +151,8 @@ AO_path_series              = sv.pathplanning.Series(cvsim + input_dir + path_na
 AO_path                     = AO_path_series.get_path(0)
 sv.dmg.add_path(svpathnames[0],AO_path)
 sv.dmg.add_segmentation(name=svsegnames[0],path=svpathnames[0],segmentations=AO_contours)
+
+
 for cid in range(0,len(AO_contours)):
     cont                = AO_contours[cid]
     cont_ipd            = get_profile_contour(gr,renderer,cont,cid,num_profile_points)
@@ -166,42 +170,4 @@ loft_surf               = modeler.loft(curve_list=curve_list)
 loft_surf_cap           = modeler.cap_surface(loft_surf)
 mdl.append(loft_surf_cap)
 sv.dmg.add_model("Aorta",mdl)
-'''
-for mid in rng:
-    curve_list          = []
-    seg_name            = seg_names[mid]
-    contour             = read_contours(seg_name)
-    end_cid             = len(contour)
-    path_series         = sv.pathplanning.Series(cvsim + input_dir + path_names[mid])
-    vessel_path         = path_series.get_path(0)
-    sv.dmg.add_path(svpathnames[mid],vessel_path)
-    sv.dmg.add_segmentation(name=svsegnames[mid],path=svpathnames[mid],segmentations=contour)
-    
-    for cid in range(start_cid,end_cid):
-        cont_ipd = get_profile_contour(gr, renderer, contour, cid, num_profile_points)
-        if cid == start_cid:
-            cont_align = cont_ipd 
-        else:
-            cont_align = sv.geometry.align_profile(last_cont_align, cont_ipd, use_distance)
-        print(cont_align)
-        # curve = modeler.approximate_curve(cont_align, tolerance,True)
-        curve = modeler.interpolate_curve(cont_align,True)
-        curve_list.append(curve) 
-        last_cont_align = cont_align
-     
-    loft_surf           = modeler.loft(curve_list=curve_list)
-    loft_surf_cap       = modeler.cap_surface(loft_surf)
-    mdl.append(loft_surf_cap)
-
-mdl = mdl_union_all(modeler,mdl)
-mdl_pd = mdl.get_polydata()
-# mdl.compute_boundary_faces(angle=60.0)
-face_ids = mdl.get_face_ids()
-print("face_ids:")
-print(face_ids)
-gr.add_geometry(renderer, mdl_pd, color=[0.0, 1.0, 0.0], wire=True, edges=False)
-sv.dmg.add_model("Aorta",mdl)
-mdl_name               = cvsim + input_dir + "control_rabbit_32181_aorta"
-mdl_format             = "brep"
-mdl.write(file_name=mdl_name, format=mdl_format)
 '''
