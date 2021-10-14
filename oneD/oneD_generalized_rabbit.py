@@ -4,7 +4,7 @@
 # tuning boundary conditions to match target hemodynamic values in cardiovascilar simulations
 # 
 # NOTE: to start, please create a SimVascular project and run this script in the python console  
-# NOTE: this script assumes the cvsim repository is mounted on an ubuntu os in the following directory: /home/ubuntu_username/github/
+# NOTE: this script assumes the cvsim repository is mounted on an ubuntu os in the following directory: (/home/ubuntu_username/github/) please see line 38 as an example
 # NOTE: for information regarding how to mount github repository on local computer please read the git_installation.txt file in cvsim/documentations/ubuntu/git_installation.txt
 
 # NOTE: You will need SimVascular installed on Ubuntu (for windows users its most easy through hyper-v manager),
@@ -51,7 +51,7 @@ graphics_dir                = cvsim + "/modules/graphics/"
 try:
     sys.path.insert(1, graphics_dir)
 except:
-    print("Can't find the new-api-tests/graphics package. See the notes within the code. Check the simvascular repository (Github) for the graphics package!")
+    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
 # import graphics module
 import graphics as gr
 # set the view point parameters and renderer
