@@ -1,3 +1,4 @@
+#! /usr/bin/python
 # A:======================================================= GENERAL
 # This python script is developed by Arash Ghorbannia (Oct. 2021)
 # The purpose is to create a automated framework for...
@@ -70,3 +71,37 @@ model_params.name = "demo-oneD"
 model_params.inlet_face_names = ['cap_aorta' ] 
 model_params.outlet_face_names = ['cap_right_iliac', 'cap_aorta_2' ] 
 model_params.centerlines_file_name = cvsim + input_dir + 'demo-oneD-centerlines.vtp' 
+
+## Fluid properties.
+fluid_props = params.FluidProperties()
+
+## Set wall properties.
+#
+print("Set wall properties ...")
+material = params.WallProperties.OlufsenMaterial()
+print("Material model: {0:s}".format(str(material)))
+
+## Set boundary conditions.
+#
+bcs = params.BoundaryConditions()
+#bcs.add_resistance(face_name='outlet', resistance=1333)
+bcs.add_velocities(face_name='inlet', file_name=cvsim + input_dir + 'demo-oneD-inflow.flow')
+bcs.add_rcr(face_name='cap_right_iliac', Rp=90.0, C=0.0008, Rd=1200)
+bcs.add_rcr(face_name='cap_aorta_2', Rp=100.0, C=0.0004, Rd=1100)
+
+## Set solution parameters. 
+#
+solution_params = params.Solution()
+solution_params.time_step = 0.001
+solution_params.num_time_steps = 1000
+
+
+## Write a 1D solver input file.
+#
+rom_simulation.write_input_file(model_order=1, model=model_params, mesh=mesh_params, fluid=fluid_props, 
+  material=material, boundary_conditions=bcs, solution=solution_params, directory=cvsim + output_dir)
+
+## Run a simulation.
+rom_simulation.run(parameters=fluid_params, use_mpi=True, num_processes=4)
+
+
