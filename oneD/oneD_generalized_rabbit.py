@@ -33,8 +33,9 @@
 # B1: get the home directory
 # NOTE: add Path from pathlib, add additional notes heare if needed
 from pathlib import Path
+# define the local home and repository directories 
 home = str(Path.home())
-
+cvsim = home + "/guthub/cvsim/"
 # B2: modules
 # B2a: import sv module that allows access to simvascular modeling pipeline which is available in gui 
 import sv
@@ -46,7 +47,7 @@ import sys
 import vtk
 # B2e: import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
 # NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
-graphics_dir                = home + "/Desktop/SimVasSim/inputfiles/modules/graphics/"
+graphics_dir                = cvsim + "/modules/graphics/"
 try:
     sys.path.insert(1, graphics_dir)
 except:
