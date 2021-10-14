@@ -9,8 +9,8 @@
 
 # NOTE: You will need SimVascular installed on Ubuntu (for windows users its most easy through hyper-v manager),
 # NOTE: to install ubuntu on hyper-v please see the instructions in hyperv_instructions.txt at cvsim/documentations/mswindows/hyperv_instructions.txt
+# NOTE: additional instructions are included within the script
 
-# NOTE: other requirements are mentioned throughout the code with referencing
 
 #--------------------------------------------------------
 # ABREVIATIONS:
