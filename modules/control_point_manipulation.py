@@ -37,9 +37,9 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     print("Distal contour numbers: {0:d}".format(dist_cont_num))
     
     coef_a                              = 1
-    common_ratio                        = np.power(scale_id,(1/(prox_cont_num-1)))
+    common_ratio                        = np.power((0.5*scale_id/discrt_id),(1/(prox_cont_num-1)))
     for i in range(prox_cont_num): prox_scale_list.append(float(coef_a*common_ratio**i))
-    common_ratio                        = np.power(scale_id,(1/(dist_cont_num-1)))
+    common_ratio                        = np.power((0.5*scale_id/discrt_id),(1/(dist_cont_num-1)))
     for i in range(dist_cont_num): dist_scale_list.append(float(coef_a*common_ratio**i))
     
     print(prox_scale_list)
