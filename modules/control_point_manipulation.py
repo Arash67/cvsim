@@ -41,7 +41,7 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
         power                       -= 1
     scale2scale_id                  = scale_id / min(proximal_scale_list)
     proximal_scale_list             = [element * scale2scale_id for element in proximal_scale_list]
-    print("Proximal scale factors: {0:d}".format(proximal_scale_list)))
+    print("Proximal scale factors: {0:d}".format(proximal_scale_list))
     power                           = distal_cont_num
     for i in range(dist_scale_num):
         distal_scale_list.append(float(coef_a*common_ratio**power))
