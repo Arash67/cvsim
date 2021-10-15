@@ -17,7 +17,7 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     scale_factor                        = []
     for i in range(num_contours): scale_factor.append(float(1))
     print(scale_factor)
-    '''
+    
     coef_a                              = 1
     common_ratio                        = float(2/3)
     tmp_len_id                          = length_id
@@ -41,7 +41,7 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     
     print("Proximal contour numbers: {0:d}".format(prox_cont_num))
     print("Distal contour numbers: {0:d}".format(dist_cont_num))
-    
+    '''
     for i in range(prox_cont_num):
         proximal_scale_list.append(float(coef_a*common_ratio**power))
         power                       -= 1
