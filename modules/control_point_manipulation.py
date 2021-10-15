@@ -40,8 +40,8 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     for i in range(prox_cont_num): prox_scale_list.append(float(coef_a*common_ratio**i))
     for i in range(dist_cont_num): dist_scale_list.append(float(coef_a*common_ratio**i))
     
-    print("Proximal scale factors: {0:d}".format(prox_scale_list))
-    print("Distal scale factors: {0:d}".format(dist_scale_list))
+    print(prox_scale_list)
+    print(dist_scale_list)
     '''
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
     temp_outer_points                   = new_outer_points.copy()
