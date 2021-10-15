@@ -34,6 +34,30 @@ import os
 import sys
 # B2d: import vtk, add additional notes heare if needed
 import vtk
+# B2e: import numpy, add additional notes here if needed
+import numpy as np
+# B2f: import shutil, add additional notes here if needed
+from shutil import copyfile
+# B2g: import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
+# NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
+graphics_dir                = cvsim + "modules/graphics/"
+print("graphics module directory:")
+print(graphics_dir)
+try:
+    sys.path.insert(1, graphics_dir)
+except:
+    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+# import graphics module
+import graphics as gr
+# other local modules
+cpmani_dir                  = cvsim + "modules/"
+print("control_point_manipulation:")
+print(cpmani_dir)
+try:
+    sys.path.insert(1, cpmani_dir)
+except:
+    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+import control_point_manipulation as cpmanip
 
 # B3: input file directories
 # NOTE: all paths are defined relative to the *.py script location. so its important to keep the same foldering format used here
@@ -64,8 +88,28 @@ scale_id                    = 0.5
 # discreteness, indicating how fast changes hapen at the narrowest segment (1 being discrete and 0 being uniform change) 
 discrt_id                   = 0.5
 
+# C:======================================================= SEGMENTATION
+def read_contours(cvsim,input_dir,filename):     # reads contours form *.ctgr
+    file_name = cvsim + input_dir + filename
+    print("Read SV ctgr file: {0:s}".format(file_name))
+    contour_group = sv.segmentation.Series(file_name)
+    num_conts = contour_group.get_num_segmentations()
+    contours = []
+
+    for i in range(num_conts):
+        cont = contour_group.get_segmentation(i)
+        contours.append(cont)
+
+    print("Number of contours: {0:d}".format(num_conts))
+    return contours
+ 
 
 
+
+# Z:======================================================= MAIN
+
+# read contours
+read_contours(cvsim,input_dir,seg_name)
 
 
 
