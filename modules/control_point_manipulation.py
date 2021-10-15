@@ -52,4 +52,4 @@ def get_dists_unit_vectors_test(center,new_outer_points):
     dists = np.linalg.norm(new_outer_points-center,axis=-1)
     unit_vectors = (new_outer_points-center)/ dists[...,np.newaxis]
     return dists,unit_vectors
-
+    '''
