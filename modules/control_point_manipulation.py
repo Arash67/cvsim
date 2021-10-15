@@ -47,7 +47,11 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     # dist_scale_list                     = np.sort(dist_scale_list)[::-1] 
     print(prox_scale_list)
     print(dist_scale_list)
-    '''
+    scale_factor_local                  = prox_scale_list + prox_scale_list
+    for i in range(len(scale_factor_local)-1):
+        indx                            = star_id + i
+        scale_factor[indx]              = scale_factor_local[i]
+    return scale_factor
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
     temp_outer_points                   = new_outer_points.copy()
     new_dists                           = dists * scale_factor
@@ -57,4 +61,3 @@ def get_dists_unit_vectors_test(center,new_outer_points):
     dists = np.linalg.norm(new_outer_points-center,axis=-1)
     unit_vectors = (new_outer_points-center)/ dists[...,np.newaxis]
     return dists,unit_vectors
-    '''
