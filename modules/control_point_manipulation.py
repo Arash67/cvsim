@@ -45,9 +45,11 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     dist_scale_list                     = np.sort(dist_scale_list)
     # sort in descending order
     # dist_scale_list                     = np.sort(dist_scale_list)[::-1] 
+    print("Proximal scale list:")
     print(prox_scale_list)
+    print("Distal scale list:")
     print(dist_scale_list)
-    scale_factor_local                  = prox_scale_list + dist_scale_list
+    scale_factor_local                  = np.concatenate(prox_scale_list,dist_scale_list,axis=None)
     for i in range(len(scale_factor_local)-1):
         indx                            = start_id + i
         scale_factor[indx]              = scale_factor_local[i]
