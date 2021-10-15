@@ -22,9 +22,10 @@
 # B1: get the home directory
 # NOTE: add Path from pathlib, add additional notes heare if needed
 from pathlib import Path
-# define the local home and repository directories 
-home = str(Path.home())
-cvsim = home + "/github/cvsim/"
+# define the local home and repository directories plus out of source directory for outputs not needed to be uploaded to the source repository 
+home                    = str(Path.home())
+cvsim                   = home + "/github/cvsim/"
+cvsimout                = home.parent + "/outofsource/cvsimout/"
 # B2: modules
 # B2a: import sv module that allows access to simvascular modeling pipeline which is available in gui 
 import sv
@@ -68,7 +69,7 @@ import control_point_manipulation as cpmanip
 #                       fulldir refers to full directory (e.g. "home/agh/github/cvsim/documentations/ubuntu/git_installation.txt)
 #---------------------------------------------------------------------------------------------------------------------------------
 input_dir                    = "data/input/"
-output_dir                   = "data/output/"
+output_dir                   = cvsimout
 
 # B3a: *.py script fulldir
 script_name                 = "control_rabbit_generalized.py"
@@ -87,6 +88,10 @@ length_id                   = 5
 scale_id                    = 0.5
 # discreteness, indicating how fast changes hapen at the narrowest segment (1 being discrete and 0 being uniform change) 
 discrt_id                   = 0.5
+# longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
+long_asym_id                = 0
+# narrowing location identified by control point id
+control_point_id            = 16
 
 # C:======================================================= SEGMENTATION
 def read_contours(cvsim,input_dir,filename):     # reads contours form *.ctgr
@@ -102,15 +107,28 @@ def read_contours(cvsim,input_dir,filename):     # reads contours form *.ctgr
 
     print("Number of contours: {0:d}".format(num_conts))
     return contours
- 
+ # Manipulation of Contour
+def get_center_outer(contour):
+    return contour.get_center(),contour.get_control_points()
+def manipulate_contour(contour,scale_factor):
+    """
+    Radially expand or contract given contour
+    scale_factor is a np.array of same length as contour. values >1 is expansion, values <1 is contraction
+    """
+    center,outer = get_center_outer(contour)
+    new_outer = manip.vary_points_test(center,outer,scale_factor=scale_factor)
+    contour = set_spline(new_outer)
+    return contour
 
 
 
 # Z:======================================================= MAIN
 
-# read contours
-read_contours(cvsim,input_dir,seg_name)
-
+# read and return contours
+contours                            = read_contours(cvsim,input_dir,seg_name)
+num_controus                        = len(contours)
+# compute scale factors
+scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id)
 
 
 
