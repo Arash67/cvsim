@@ -32,7 +32,7 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     dist_cont_num                   = stop_id - center_id
     prox_scale_list                 = []
     dist_scale_list                 = []
-    
+    print("Total contour numbers: {0:d}".format(num_contours))
     print("Proximal contour numbers: {0:d}".format(prox_cont_num))
     print("Distal contour numbers: {0:d}".format(dist_cont_num))
     # discrete_id (values between 0 and 1) defines how fast area drops, however currently method is limited only to 0.5 and other values cause deviation from scale_id 
@@ -51,6 +51,10 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     for i in range(len(scale_factor_local)-1):
         indx                            = star_id + i
         scale_factor[indx]              = scale_factor_local[i]
+    print("Scale factor size: {0:d}".format(len(scale_factor)))
+    print("Scale factor:")
+    print(scale_factor)
+    
     return scale_factor
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
     temp_outer_points                   = new_outer_points.copy()
