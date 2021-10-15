@@ -49,7 +49,7 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     print(dist_scale_list)
     scale_factor_local                  = prox_scale_list + prox_scale_list
     for i in range(len(scale_factor_local)-1):
-        indx                            = star_id + i
+        indx                            = start_id + i
         scale_factor[indx]              = scale_factor_local[i]
     print("Scale factor size: {0:d}".format(len(scale_factor)))
     print("Scale factor:")
