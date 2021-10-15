@@ -1,0 +1,5 @@
+[generate-1d-mesh] INFO - Parse arguments ...
+[generate-1d-mesh] INFO - Model order: 1
+[generate-1d-mesh] INFO - Centerlines input file: /home/agh/github/cvsim/data/input/demo-oneD-centerlines.vtp
+[generate-1d-mesh] ERROR - The centerlines input file '/home/agh/github/cvsim/data/input/demo-oneD-centerlines.vtp' was not found.
+[generate-1d-mesh] ERROR - Error in parameters.
