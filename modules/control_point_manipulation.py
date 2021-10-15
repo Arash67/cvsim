@@ -42,7 +42,8 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     for i in range(prox_cont_num): prox_scale_list.append(float(coef_a*common_ratio**i))
     common_ratio                        = np.power((0.5*scale_id/discrt_id),(1/(dist_cont_num-1)))
     for i in range(dist_cont_num): dist_scale_list.append(float(coef_a*common_ratio**i))
-    
+    # sort in descending order
+    dist_scale_list                     = np.sort(dist_scale_list)[::-1] 
     print(prox_scale_list)
     print(dist_scale_list)
     '''
