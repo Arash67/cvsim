@@ -140,23 +140,158 @@ def manipulate_contour(contour,scale_factor):
     contour = set_spline(new_outer)
     return contour
 
+# D:======================================================= MODELING
+def get_profile_contour(contours, cid, npts):
+    cont = contours[cid]
+    cont_pd = cont.get_polydata()
+    cont_ipd = sv.geometry.interpolate_closed_curve(polydata=cont_pd, number_of_points=npts)
+    return cont_ipd
+def loft(contours):
+    num_contours = len(contours)
+    num_profile_points = 50
+    use_distance = True
+    contour_list = []
+    start_cid = 0
+    end_cid = num_contours
+    for cid in range(start_cid,end_cid):
+        cont_ipd = get_profile_contour(contours, cid, num_profile_points)
+        if cid == start_cid:
+            cont_align = cont_ipd
+        else:
+            cont_align = sv.geometry.align_profile(last_cont_align, cont_ipd, use_distance)
+        contour_list.append(cont_align)
+        last_cont_align = cont_align
+    options = sv.geometry.LoftNurbsOptions()
+    loft_surf = sv.geometry.loft_nurbs(polydata_list=contour_list, loft_options=options)#, num_divisions=12
+    loft_capped = sv.vmtk.cap(surface=loft_surf, use_center=False)
+
+    # We dont need to save the ugly_file, it will be remeshed
+    # ugly_file = cvsimout + "capped-loft-surface.vtp"
+    # writer = vtk.vtkXMLPolyDataWriter()
+    # writer.SetFileName(ugly_file)
+    # writer.SetInputData(loft_capped)
+    # writer.Update()
+    # writer.Write()
+    return loft_capped
+def remesh(loft_capped):
+    modeler = sv.modeling.Modeler(sv.modeling.Kernel.POLYDATA)
+    model = sv.modeling.PolyData()
+    model.set_surface(surface=loft_capped)
+    model.compute_boundary_faces(angle=60.0)
+    remesh_model = sv.mesh_utils.remesh(model.get_polydata(), hmin=0.1, hmax=0.1)
+    model.set_surface(surface=remesh_model)
+    model.compute_boundary_faces(angle=60.0)
+    model.write(cvsimout, format="vtp")
+    polydata = model.get_polydata()
+    print("Model: ")
+    print("  Number of points: " + str(polydata.GetNumberOfPoints()))
+    print("  Number of cells: " + str(polydata.GetNumberOfCells()))
+    return cvsimout + '.vtp',polydata
+
+# D:======================================================= MESHING
+# see https://github.com/SimVascular/SimVascular-Tests/blob/master/new-api-tests/meshing/tetgen-options.py
+def do_mesh(file_name):
+    dir_complete='mesh-complete/'
+    dir_surf = "mesh-surfaces/"
+    mesher = sv.meshing.create_mesher(sv.meshing.Kernel.TETGEN)
+    options = sv.meshing.TetGenOptions(global_edge_size=0.05, surface_mesh_flag=True, volume_mesh_flag=True) 
+    mesher.load_model(file_name)
+
+    ## Set the face IDs for model walls.
+    wall_face_ids = [1]
+    mesher.set_walls(wall_face_ids)
+
+    ## Compute model boundary faces.
+    mesher.compute_model_boundary_faces(angle=50.0)
+    face_ids = mesher.get_model_face_ids()
+    print("Mesh face ids: " + str(face_ids))
+
+    ## Set boundary layer meshing options
+    print("Set boundary layer meshing options ... ")
+    mesher.set_boundary_layer_options(number_of_layers=2, edge_size_fraction=0.5, layer_decreasing_ratio=0.8, constant_thickness=False)
+    options.no_bisect = False
+
+    ## Print options.
+    #print("Options values: ")
+    #[ print("  {0:s}:{1:s}".format(key,str(value))) for (key, value) in sorted(options.get_values().items()) ]
+
+    ## Generate the mesh. 
+    mesher.generate_mesh(options)
+    
+    ## Get the mesh as a vtkUnstructuredGrid. 
+    mesh = mesher.get_mesh()
+    
+    print("Mesh:")
+    print("  Number of nodes: {0:d}".format(mesh.GetNumberOfPoints()))
+    print("  Number of elements: {0:d}".format(mesh.GetNumberOfCells()))
+
+    ## Write the mesh.
+    mesher.write_mesh(file_name = cvsimout + 'mesh-complete.mesh.vtu')
+
+    ## Export the mesh-complete files
+    for i in range(4):#complete exterior and 3 faces
+        if i==0:
+            temp_name = cvsimout + 'mesh-complete.exterior.vtp'
+            surf_mesh = mesher.get_surface()
+        else:
+            temp_name = cvsimout + str(i) + ".vtp"
+            surf_mesh = mesher.get_face_polydata(i)
+        writer = vtk.vtkXMLPolyDataWriter()
+        writer.SetFileName(temp_name)
+        writer.SetInputData(surf_mesh)
+        writer.Update()
+        writer.Write()
+        #Main wall
+        if i==1:
+            temp_name2 = cvsimout + 'walls_combined.vtp'
+            copyfile(temp_name,temp_name2)
+
+#========================================================================================= GRAPHICS
+def draw_solid(polydata):
+    win_width = 500
+    win_height = 500
+    renderer, renderer_window = gr.init_graphics(win_width, win_height)
+    gr.add_geometry(renderer, polydata, color=[0.0, 1.0, 0.0], wire=False, edges=True)
+    gr.display(renderer_window)
+
+def draw_segmentations(contours):
+    num_segs = len(contours)
+
+    ## Create renderer and graphics window.
+    win_width = 500
+    win_height = 500
+    renderer, renderer_window = gr.init_graphics(win_width, win_height)
+    ## Show contours.
+    for sid in range(num_segs):
+        seg = contours[sid]
+        control_points = seg.get_control_points()
+        gr.create_segmentation_geometry(renderer, seg)
+
+    # Display window.
+    gr.display(renderer_window)
+
 # Z:======================================================= MAIN
+def main():
+    # read and return contours
+    contours                            = read_contours(cvsim,input_dir,seg_name)
+    num_contours                        = len(contours)
+    # compute scale factors
+    scale_factors                       = cpmanip.scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id)
+    # Contour manipulation
+    contours_manip                      = []
+    for i in range(len(contours)-1):
+        conti                           = contours[i]
+        conti                           = manipulate_contour(conti,scale_factors[i])
+        contours_manip.append(conti)
+    print("Manipulated contour:")
+    print(contours_manip)
+    # Draw segmentation
+    draw_segmentations(contours_manip)
+    # loft segmentation
+    loft_capped                         = loft(contours_manip)
 
-# read and return contours
-contours                            = read_contours(cvsim,input_dir,seg_name)
-num_contours                        = len(contours)
-# compute scale factors
-scale_factors                       = cpmanip.scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id)
-# Contour manipulation
-contours_manip                      = []
-for i in range(len(contours)-1):
-    conti                           = contours[i]
-    conti                           = manipulate_contour(conti,scale_factors[i])
-    contours_manip.append(conti)
-print("Manipulated contour:")
-print(contours_manip)
-
-
+    
+main()
 
 
 
