@@ -18,7 +18,7 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
         
     coef_a                              = 1
     common_ratio                        = float(2/3)
-    tmp_len_id                          = lenght_id
+    tmp_len_id                          = length_id
     if (length_id % 2 !=0): 
         tmp_len_id -=1
     half_num                        = int(tmp_len_id/2)
