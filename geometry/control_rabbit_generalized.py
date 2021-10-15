@@ -25,7 +25,7 @@ from pathlib import Path
 # define the local home and repository directories plus out of source directory for outputs not needed to be uploaded to the source repository 
 home                    = str(Path.home())
 cvsim                   = home + "/github/cvsim/"
-cvsimout                = home.parent + "/outofsource/cvsimout/"
+cvsimout                = home + "/github/outofsource/cvsimout/"
 # B2: modules
 # B2a: import sv module that allows access to simvascular modeling pipeline which is available in gui 
 import sv
@@ -78,22 +78,31 @@ script_fulldir              = cvsim + script_dir + script_name
 print("script full directory:")
 print(script_fulldir)
 # B3b: *.ctgr fulldir
-seg_name                    = "control_rabbit_32181_S01AO.ctgr"
+seg_name                    = "control_rabbit_32181_S01AO_splinepoly.ctgr"
 seg_fulldir                 = cvsim + input_dir + seg_name
 
 # B4: manipulation parameters
 # number of contours to be manipulated in the region, indicator of the length of the affected region
-length_id                   = 5
+length_id                   = 10
 # diameter reduction at most stenotic segment
 scale_id                    = 0.5
-# discreteness, indicating how fast changes hapen at the narrowest segment (1 being discrete and 0 being uniform change) 
+# discreteness, indicating how fast changes hapen at the narrowest segment (1 being discrete and 0 being uniform change), code still not complete, see control_point_manipulation.py for more info 
 discrt_id                   = 0.5
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
-long_asym_id                = 0
+long_asym_id                = -0.2
 # narrowing location identified by control point id
 control_point_id            = 16
 
 # C:======================================================= SEGMENTATION
+def set_spline(control_points):
+    # .ctgr includes center and distance control points, followed by outer control points
+    # this function takes outer control points only
+    seg = sv.segmentation.SplinePolygon(control_points=control_points)
+    seg.set_subdivision_params(type=sv.segmentation.SubdivisionType.CONSTANT_SPACING)
+    return seg
+def set_splines(control_points_list):
+    segs = [set_spline(control_points) for control_points in control_points_list]
+    return segs
 def read_contours(cvsim,input_dir,filename):     # reads contours form *.ctgr
     file_name = cvsim + input_dir + filename
     print("Read SV ctgr file: {0:s}".format(file_name))
@@ -119,16 +128,34 @@ def manipulate_contour(contour,scale_factor):
     new_outer = manip.vary_points_test(center,outer,scale_factor=scale_factor)
     contour = set_spline(new_outer)
     return contour
-
-
+def get_center_outer(contour):
+    return contour.get_center(),contour.get_control_points()
+def manipulate_contour(contour,scale_factor):
+    """
+    Radially expand or contract given contour
+    scale_factor is a np.array of same length as contour. values >1 is expansion, values <1 is contraction
+    """
+    center,outer = get_center_outer(contour)
+    new_outer = cpmanip.vary_points_test(center,outer,scale_factor=scale_factor)
+    contour = set_spline(new_outer)
+    return contour
 
 # Z:======================================================= MAIN
 
 # read and return contours
 contours                            = read_contours(cvsim,input_dir,seg_name)
-num_controus                        = len(contours)
+num_contours                        = len(contours)
 # compute scale factors
-scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id)
+scale_factors                       = cpmanip.scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id)
+# Contour manipulation
+contours_manip                      = []
+for i in range(len(contours)-1):
+    conti                           = contours[i]
+    conti                           = manipulate_contour(conti,scale_factors[i])
+    contours_manip.append(conti)
+print("Manipulated contour:")
+print(contours_manip)
+
 
 
 
