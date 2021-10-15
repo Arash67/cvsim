@@ -7,45 +7,28 @@ from paraview.vtk.util.misc import vtkGetTempDir
 from paraview.simple import *
 from os.path import join
 
-def:
+def layoutprep(viewsize,bgcolor):
+  # Create a new 'Render View'
+  renderView1 = CreateView('RenderView')
+  # renderView1.ViewSize = [300, 259]
+  renderView1.ViewSize = viewsize
+  # renderView1.Background = [0.32, 0.34, 0.43]
+  renderView1.Background = bgcolor
   
+  AssignViewToLayout(renderView1)
 
-# Create a new 'Render View'
-renderView1 = CreateView('RenderView')
-renderView1.ViewSize = [300, 259]
-renderView1.Background = [0.32, 0.34, 0.43]
+  layout1 = GetLayout()
+  layout1.SeparatorWidth = 2
+  layout1.SplitVertical(0, 0.5)
+  # RenderAllViews()
+  layout = layout1
+  return layout
 
-AssignViewToLayout(renderView1)
-
-layout1 = GetLayout()
-layout1.SeparatorWidth = 2
-layout1.SplitVertical(0, 0.5)
-
-# Create a new 'Render View'
-renderView2 = CreateView('RenderView')
-renderView2.ViewSize = [300, 258]
-renderView2.Background = [0.32, 0.34, 0.43]
-layout1.AssignView(2, renderView2)
-
-RenderAllViews()
-
-a = [0, 0, 0, 0]
-layout1.GetLayoutExtent(a)
-size = (a[1] - a[0] + 1, a[3] - a[2] + 1)
-
-# Ensure that the current size has odd height
-assert size[1] % 2 != 0
-assert size[1] == (renderView1.ViewSize[1] + renderView2.ViewSize[1] + layout1.SeparatorWidth)
-
-def SaveAndCheckSize(filename, layout, resolution):
-    SaveScreenshot(filename, layout, SaveAllViews=1, ImageResolution=resolution)
-
-    from paraview.vtk.vtkIOImage import vtkPNGReader
-    reader = vtkPNGReader()
-    reader.SetFileName(filename)
-    reader.Update()
-    assert (reader.GetOutput().GetDimensions()[0:2] == resolution)
-
-SaveAndCheckSize(join(vtkGetTempDir(), "OutputImageResolution300.png"), layout1, (300, 300))
-SaveAndCheckSize(join(vtkGetTempDir(), "OutputImageResolution313.png"), layout1, (300, 313))
-
+def vtpscreenshot(vtpname,viewsize,bgcolor,resolution,pngname):
+  # read the file
+  vtpfile           = XMLPolyDataReader(FileName=vtpname)
+  # prepare the layout
+  layout            = layoutprep(viewsize,bgcolor)
+  SaveScreenshot(pngname, layout, SaveAllViews=1, ImageResolution=resolution)
+    
+filename = ['/home/agh/github/outofsource/cvsimout/mesh-complete.exterior.vtp']
