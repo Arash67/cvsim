@@ -1,5 +1,4 @@
 # A:======================================================= GENERAL
-# This python script is developed by Arash Ghorbannia (Oct. 2021)
 # The purpose is to create a parametrized model of the concomitant anomalies happening with CoA
 # 
 # NOTE: to start, please create a SimVascular project and run this script in the python console  
@@ -166,12 +165,12 @@ def loft(contours):
     loft_capped = sv.vmtk.cap(surface=loft_surf, use_center=False)
 
     # We dont need to save the ugly_file, it will be remeshed
-    # ugly_file = cvsimout + "capped-loft-surface.vtp"
-    # writer = vtk.vtkXMLPolyDataWriter()
-    # writer.SetFileName(ugly_file)
-    # writer.SetInputData(loft_capped)
-    # writer.Update()
-    # writer.Write()
+    ugly_file = cvsimout + "capped-loft-surface.vtp"
+    writer = vtk.vtkXMLPolyDataWriter()
+    writer.SetFileName(ugly_file)
+    writer.SetInputData(loft_capped)
+    writer.Update()
+    writer.Write()
     return loft_capped
 def remesh(loft_capped):
     modeler = sv.modeling.Modeler(sv.modeling.Kernel.POLYDATA)
@@ -191,8 +190,6 @@ def remesh(loft_capped):
 # D:======================================================= MESHING
 # see https://github.com/SimVascular/SimVascular-Tests/blob/master/new-api-tests/meshing/tetgen-options.py
 def do_mesh(file_name):
-    dir_complete='mesh-complete/'
-    dir_surf = "mesh-surfaces/"
     mesher = sv.meshing.create_mesher(sv.meshing.Kernel.TETGEN)
     options = sv.meshing.TetGenOptions(global_edge_size=0.05, surface_mesh_flag=True, volume_mesh_flag=True) 
     mesher.load_model(file_name)
@@ -285,10 +282,13 @@ def main():
         contours_manip.append(conti)
     print("Manipulated contour:")
     print(contours_manip)
-    # Draw segmentation
-    draw_segmentations(contours_manip)
-    # loft segmentation
+    # loft 
     loft_capped                         = loft(contours_manip)
+    remesh(loft_capped)
+    # mesh
+    do_mesh(cvsimout + "capped-loft-surface.vtp")
+    # Draw segmentation
+    # draw_segmentations(contours_manip)
 
     
 main()
