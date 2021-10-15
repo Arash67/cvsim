@@ -29,29 +29,16 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     stop_id                         = start_id + length_id
     long_asym_dislocation           = int(half_num * long_asym_id)
     center_id                       = center_id + long_asym_dislocation
-    '''
-    if long_asym_id > 0:
-        center_id                   = center_id + long_asym_dislocation
-    else:
-        center_id                   = center_id - long_asym_dislocation
-    '''
     prox_cont_num                   = center_id - start_id
     dist_cont_num                   = stop_id - center_id
     prox_scale_list                 = []
     distal_scale_list               = []
-    power                           = prox_cont_num
     
     print("Proximal contour numbers: {0:d}".format(prox_cont_num))
     print("Distal contour numbers: {0:d}".format(dist_cont_num))
-    '''
-    for i in range(prox_cont_num):
-        proximal_scale_list.append(float(coef_a*common_ratio**power))
-        power                       -= 1
-   
-    power                           = distal_cont_num
-    for i in range(dist_cont_num):
-        distal_scale_list.append(float(coef_a*common_ratio**power))
-        power                       -= 1 
+    
+    for i in range(prox_cont_num): proximal_scale_list.append(float(coef_a*common_ratio**i))
+    for i in range(dist_cont_num): distal_scale_list.append(float(coef_a*common_ratio**i))
     
     print("Proximal scale factors: {0:d}".format(proximal_scale_list))
     print("Distal scale factors: {0:d}".format(distal_scale_list))
