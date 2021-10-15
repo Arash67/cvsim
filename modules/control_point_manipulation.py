@@ -1,5 +1,6 @@
 # this modules apply morphological manipulations on local vascular geometries and generate vtp mesh
 import numpy as np
+import math
 
 
 def to_numpy(lists):
@@ -17,7 +18,8 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     scale_factor                        = []
     for i in range(num_contours): scale_factor.append(float(1))
     # print(scale_factor)
-    
+def sigmoid(L,k,x0,x):
+    return L / (1 + math.exp(-k*(x-x0))) 
     
     tmp_len_id                          = length_id
     if (length_id % 2 !=0): 
@@ -38,7 +40,11 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     # discrete_id (values between 0 and 1) defines how fast area drops, however currently method is limited only to 0.5 and other values cause deviation from scale_id 
     discrt_id                           = 0.5                     
     coef_a                              = 1
+    power equation
     common_ratio                        = np.power((0.5*scale_id/discrt_id),(1/(prox_cont_num-1)))
+    # logistic equation
+    # common_ratio                        = sigmoid(1.0,discrt_id,)
+
     for i in range(prox_cont_num): prox_scale_list.append(float(coef_a*common_ratio**i))
     common_ratio                        = np.power((0.5*scale_id/discrt_id),(1/(dist_cont_num-1)))
     for i in range(dist_cont_num): dist_scale_list.append(float(coef_a*common_ratio**i))
