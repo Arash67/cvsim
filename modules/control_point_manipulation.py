@@ -48,7 +48,7 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
         power                       -= 1 
     scale2scale_id                  = scale_id / min(distal_scale_list)
     distal_scale_list               = [element * scale2scale_id for element in distal_scale_list]
-    print("Distal scale factors: {0:d}".format(distal_scale_list)))
+    print("Distal scale factors: {0:d}".format(distal_scale_list))
     
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
     temp_outer_points                   = new_outer_points.copy()
