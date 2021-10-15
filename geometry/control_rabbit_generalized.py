@@ -47,8 +47,10 @@ try:
     sys.path.insert(1, graphics_dir)
 except:
     print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
-# import graphics module
+# B2h: import graphics module
 import graphics as gr
+# B2i: import paraview module
+import paraview
 # other local modules
 cpmani_dir                  = cvsim + "modules/"
 print("control_point_manipulation:")
@@ -272,8 +274,10 @@ def main():
     # read and return contours
     contours                            = read_contours(cvsim,input_dir,seg_name)
     num_contours                        = len(contours)
+    
     # compute scale factors
     scale_factors                       = cpmanip.scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id)
+    
     # Contour manipulation
     contours_manip                      = []
     for i in range(len(contours)-1):
@@ -282,13 +286,21 @@ def main():
         contours_manip.append(conti)
     print("Manipulated contour:")
     print(contours_manip)
+    
     # loft 
     loft_capped                         = loft(contours_manip)
     remesh(loft_capped)
+    
     # mesh
     do_mesh(cvsimout + "capped-loft-surface.vtp")
+    
     # Draw segmentation
     # draw_segmentations(contours_manip)
+    
+    # Take a paraview screenshot
+    # cvsimout = /home/agh/github/outofsource/cvsimout/
+    filename = [cvsimout + 'mesh-complete.exterior.vtp']
+    vtpscreenshot(vtpname,[300,200],[0.32, 0.34, 0.43],[300,300],cvsimout + "screen.png")
 
     
 main()
