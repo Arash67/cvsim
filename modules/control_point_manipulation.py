@@ -32,16 +32,16 @@ def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,con
     prox_cont_num                   = center_id - start_id
     dist_cont_num                   = stop_id - center_id
     prox_scale_list                 = []
-    distal_scale_list               = []
+    dist_scale_list               = []
     
     print("Proximal contour numbers: {0:d}".format(prox_cont_num))
     print("Distal contour numbers: {0:d}".format(dist_cont_num))
     
-    for i in range(prox_cont_num): proximal_scale_list.append(float(coef_a*common_ratio**i))
-    for i in range(dist_cont_num): distal_scale_list.append(float(coef_a*common_ratio**i))
+    for i in range(prox_cont_num): prox_scale_list.append(float(coef_a*common_ratio**i))
+    for i in range(dist_cont_num): dist_scale_list.append(float(coef_a*common_ratio**i))
     
-    print("Proximal scale factors: {0:d}".format(proximal_scale_list))
-    print("Distal scale factors: {0:d}".format(distal_scale_list))
+    print("Proximal scale factors: {0:d}".format(prox_scale_list))
+    print("Distal scale factors: {0:d}".format(dist_scale_list))
     '''
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
     temp_outer_points                   = new_outer_points.copy()
