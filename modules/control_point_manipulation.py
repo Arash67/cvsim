@@ -16,7 +16,7 @@ def vary_points_test(center,outer_points,scale_factor):
 def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id):
     scale_factor                        = []
     for i in range(num_contours): scale_factor.append(float(1))
-    print("Proximal scale factors: {0:d}".format(scale_factor))
+    print(scale_factor)
     '''
     coef_a                              = 1
     common_ratio                        = float(2/3)
