@@ -50,7 +50,16 @@ except:
 # B2h: import graphics module
 import graphics as gr
 # B2i: import paraview module
-import paraview
+# NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
+paraview_dir                =  "/usr/lib/python3/dist-packages/paraview"
+print("paraview package directory:")
+print(paraview_dir)
+try:
+    sys.path.insert(1, paraview_dir)
+except:
+    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+
+# import paraview as pv
 # other local modules
 cpmani_dir                  = cvsim + "modules/"
 print("control_point_manipulation:")
@@ -295,12 +304,12 @@ def main():
     do_mesh(cvsimout + "capped-loft-surface.vtp")
     
     # Draw segmentation
-    # draw_segmentations(contours_manip)
+    draw_segmentations(contours_manip)
     
     # Take a paraview screenshot
     # cvsimout = /home/agh/github/outofsource/cvsimout/
     filename = [cvsimout + 'mesh-complete.exterior.vtp']
-    vtpscreenshot(vtpname,[300,200],[0.32, 0.34, 0.43],[300,300],cvsimout + "screen.png")
+    # vtpscreenshot(vtpname,[300,200],[0.32, 0.34, 0.43],[300,300],cvsimout + "screen.png")
 
     
 main()
