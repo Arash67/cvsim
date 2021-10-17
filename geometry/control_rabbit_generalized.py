@@ -93,16 +93,15 @@ seg_fulldir                 = cvsim + input_dir + seg_name
 
 # B4: manipulation parameters
 # number of contours to be manipulated in the region, indicator of the length of the affected region
-length_id                   = 10
+length_id                   = 6
 # diameter reduction at most stenotic segment
 scale_id                    = 0.5
-# discreteness, indicating how fast changes hapen at the narrowest segment (1 being discrete and 0 being uniform change), code still not complete, see control_point_manipulation.py for more info 
-discrt_id                   = 0.5
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
 # long_asym_id                = -0.2
+# long_asym_id                = 0.2
 long_asym_id                = 0.0
 # narrowing location identified by control point id
-control_point_id            = 16
+control_point_id            = 13
 
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
@@ -284,7 +283,11 @@ def main():
     # read and return contours
     contours                            = read_contours(cvsim,input_dir,seg_name)
     num_contours                        = len(contours)
-    
+    if 0.5*length_id + control_point_id > num_contours:
+        print("ERROR: changes propagate beyond the last distal segment")
+    if control_point_id - 0.5*length_id < 0:
+        print("ERROR: changes propagate beyond the first segment of the vessel")
+        
     # compute scale factors
     scale_factors                       = cpmanip.scale_factor_test(num_contours,length_id,scale_id,long_asym_id,control_point_id)
     print("Scale factors:")
