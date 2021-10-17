@@ -99,7 +99,8 @@ scale_id                    = 0.5
 # discreteness, indicating how fast changes hapen at the narrowest segment (1 being discrete and 0 being uniform change), code still not complete, see control_point_manipulation.py for more info 
 discrt_id                   = 0.5
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
-long_asym_id                = -0.2
+# long_asym_id                = -0.2
+long_asym_id                = 0.0
 # narrowing location identified by control point id
 control_point_id            = 16
 
