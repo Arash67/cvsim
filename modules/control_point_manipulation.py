@@ -30,8 +30,8 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
     else:
         # explantion
         temp                            = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
-    output = temp
-    return output
+    output_scale_factor = temp
+    return output_scale_factor
 
                                                        
 '''
