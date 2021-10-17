@@ -13,7 +13,7 @@ def vary_points_test(center,outer_points,scale_factor):
 	new_points                          = radial_expansion_test(center,outer_points,dists,unit_vectors,scale_factor)
 	new_points                          = to_lists_2d(new_points)
 	return new_points
-def sigmoid(scale_factor,number_of_contours,current_contour_number,steepness):
+def sigmoid(scale_factor,number_of_contours,current_contour_number,steepness,x50):
 	# L : amplituded must be between indicating diameter reduction (between 0 and one) or expantion ratio (larger than one)
 	L                                   = scale_factor
 	# k : steepness 
@@ -21,7 +21,7 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number,steepness):
 	# x : current disrtance from the left end
 	x                                   = current_contour_number
 	# x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is current assumtion is scaled range of 12 woth 50% happening at 6
-	x50                                 = 0.5				
+	# x50                                 = 0.2				
 	x0                                  = number_of_contours * x50
 	
 	print(x-x0)
@@ -45,7 +45,7 @@ def scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id):
 			scale_factor[sid]			= 1
 	print("number of updated contours: {0:d}".format(indx_counter))
 	return scale_factor
-def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asymetry_coef,location_id,steepness):
+def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asymetry_coef,location_id,steepness,x50):
 	scale_factor                        = []
 	for i in range(number_of_contours): scale_factor.append(float(1))
 	if (length_id % 2 !=0): 
@@ -68,9 +68,9 @@ def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asyme
 	print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
 	print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
 	for i in range(number_of_proximal_contours):
-		prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i+1,steepness))
+		prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i+1,steepness,x50))
 	for s in range(number_of_distal_contours):
-		dist_scale_factors.append(sigmoid(maximum_diameter_change,number_of_distal_contours,s,steepness))
+		dist_scale_factors.append(sigmoid(maximum_diameter_change,number_of_distal_contours,s,steepness,x50))
 	# sort the scale lists
 	dist_scale_factors                       = np.sort(dist_scale_factors)
 	# sort in descending order
