@@ -16,8 +16,8 @@ def vary_points_test(center,outer_points,scale_factor):
 def sigmoid(scale_factor,number_of_contours,current_contour_number):
 	# L : amplituded must be between indicating diameter reduction (between 0 and one) or expantion ratio (larger than one)
 	L                                   = scale_factor
-	# k : steepness (-1 to zero is smooth, 0 is logistic default function, and 0 to 1 is sharp 
-	k                                   = 1 
+	# k : steepness 
+	k                                   = 0.5 
 	# x : current disrtance from the left end
 	x                                   = current_contour_number
 	# x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is current assumtion is scaled range of 12 woth 50% happening at 6
