@@ -71,9 +71,10 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
 	print(prox_scale_factors)
 	print("Distal scale factor list:")
 	print(dist_scale_factors)
-	scale_factor_local                  = np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
-	indx_counter                        = 0
-	scale_factor						= scale_factor_insert(scale_factor,scale_factor_local,start_id)
+	scale_factor_local                  	= np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
+	indx_counter                        	= 0
+	print(scale_factor)
+	scale_factor				= scale_factor_insert(scale_factor,scale_factor_local,start_id)
 	return scale_factor
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
 	temp_outer_points                   = new_outer_points.copy()
