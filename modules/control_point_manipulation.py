@@ -21,7 +21,7 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 	# x : current disrtance from the left end
 	x                                   = current_contour_number
 	# x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is current assumtion is scaled range of 12 woth 50% happening at 6
-	x50                                 = 0.5				
+	x50                                 = 0.3				
 	x0                                  = number_of_contours * x50
 	
 	print(x-x0)
