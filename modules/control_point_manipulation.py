@@ -37,16 +37,15 @@ def scale_factor_insert(scale_factor,scale_factor_local,start_id):
 			indx_counter                += 1
 	print("number of updated contours: {0:d}".format(indx_counter))
 	return scale_factor
-def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,location_id):
+def scale_factor_test(number_of_contours,lenght_id,maximum_diameter_change,asymetry_coef,location_id):
 	scale_factor                        = []
 	for i in range(number_of_contours): scale_factor.append(float(1))
-	tmp_len_id                          = number_of_contours
-	if (number_of_contours % 2 !=0): 
-		number_of_contours -=1
-	half_num                        = int(number_of_contours/2)
+	if (lenght_id % 2 !=0): 
+		lenght_id -=1
+	half_num                        = int(lenght_id/2)
 	center_id                       = location_id
 	start_id                        = center_id - half_num
-	stop_id                         = start_id + number_of_contours
+	stop_id                         = start_id + lenght_id
 	center_dislocation              = int(half_num * asymetry_coef)
 	center_id                       = center_id + center_dislocation
 	number_of_proximal_contours     = center_id - start_id
@@ -57,6 +56,7 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
 	prox_scale_factors              = []
 	dist_scale_factors              = []
 	print("Total contour numbers: {0:d}".format(number_of_contours))
+	print("Total modified contours: {0:d}".format(length_id))
 	print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
 	print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
 	for i in range(number_of_proximal_contours):
@@ -73,7 +73,6 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
 	print(dist_scale_factors)
 	scale_factor_local                  	= np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
 	indx_counter                        	= 0
-	print(scale_factor)
 	scale_factor				= scale_factor_insert(scale_factor,scale_factor_local,start_id)
 	return scale_factor
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
