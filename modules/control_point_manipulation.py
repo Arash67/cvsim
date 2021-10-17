@@ -26,10 +26,11 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
     output                              = []
     if scale_factor < 1:
         # contraction
-        output                          = 1 - (L / (1 + math.exp(-k*(int(x-x0)))))
+        temp                            = 1 - (L / (1 + math.exp(-k*(int(x-x0)))))
     else:
         # explantion
-        output                          = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
+        temp                            = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
+    output = temp
     return output
 
                                                        
