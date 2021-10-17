@@ -17,11 +17,11 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 	# L : amplituded must be between indicating diameter reduction (between 0 and one) or expantion ratio (larger than one)
 	L                                   = scale_factor
 	# k : steepness 
-	k                                   = 0.5 
+	k                                   = 0.7 
 	# x : current disrtance from the left end
 	x                                   = current_contour_number
 	# x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is current assumtion is scaled range of 12 woth 50% happening at 6
-	x50                                 = 0.9				
+	x50                                 = 0.5				
 	x0                                  = number_of_contours * x50
 	
 	print(x-x0)
