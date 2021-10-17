@@ -31,6 +31,8 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
         # explantion
         output                          = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
     return output
+
+                                                       
 '''
 def pwr(scale_id,steepness,curr_cont_num):
     print("WARNING: pwr model does not accuratly resemble scale_id if values other than 0.5 is used for steepness!")
@@ -45,6 +47,8 @@ def pwr(scale_id,steepness,curr_cont_num):
     p = (1/(curr_cont_num-1)
     return np.power(r,p)
 '''
+                                                       
+
 def scale_factor_test(number_of_contours,maximum_diameter_reduction,asymetry_coef,location_id):
     scale_factor                        = []
     for i in range(number_of_contours): scale_factor.append(float(1))
