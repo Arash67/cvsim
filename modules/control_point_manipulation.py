@@ -19,7 +19,7 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 	# k : steepness (-1 to zero is smooth, 0 is logistic default function, and 0 to 1 is sharp 
 	k                                   = 1 
 	# x : current disrtance from the left end
-	x                                   = (current_contour_number*6) / number_of_contours
+	x                                   = (current_contour_number*3) / number_of_contours
 	# x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is current assumtion is scaled range of 12 woth 50% happening at 6
 	x0                                  = 6
 	if scale_factor < 1:
