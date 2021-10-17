@@ -74,7 +74,6 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
             indx_counter                += 1
         else:
             # do nothing
-    print("Scale factor size: {0:d}".format(len(scale_factor)))
     print("Scale factor:")
     print(scale_factor)
     
