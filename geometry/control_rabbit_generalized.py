@@ -88,22 +88,23 @@ script_fulldir              = cvsim + script_dir + script_name
 print("script full directory:")
 print(script_fulldir)
 # B3b: *.ctgr fulldir
-seg_name                    = "control_rabbit_32181_S01AO_splinepoly.ctgr"
+seg_name                    = "control_rabbit_32181_S01AO_splinepoly2.ctgr"
 seg_fulldir                 = cvsim + input_dir + seg_name
 
 # B4: manipulation parameters
 # number of contours to be manipulated in the region, indicator of the length of the affected region
-length_id                   = 6
+length_id                   = 10
 # diameter reduction at most stenotic segment
-perc_diameter_reduction     = 80
+perc_diameter_reduction     = 70
 scale_id                    = perc_diameter_reduction/100
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
 # long_asym_id                = -0.2
 # long_asym_id                = 0.2
 long_asym_id                = 0.0
 # narrowing location identified by control point id
-control_point_id            = 16
-
+control_point_id            = 30
+# steepness
+steepness                   = 1
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
     # .ctgr includes center and distance control points, followed by outer control points
@@ -189,7 +190,7 @@ def remesh(loft_capped):
     model = sv.modeling.PolyData()
     model.set_surface(surface=loft_capped)
     model.compute_boundary_faces(angle=60.0)
-    remesh_model = sv.mesh_utils.remesh(model.get_polydata(), hmin=0.1, hmax=0.1)
+    remesh_model = sv.mesh_utils.remesh(model.get_polydata(), hmin=0.1, hmax=0.3)
     model.set_surface(surface=remesh_model)
     model.compute_boundary_faces(angle=60.0)
     model.write(cvsimout, format="vtp")
@@ -290,7 +291,7 @@ def main():
         print("ERROR: changes propagate beyond the first segment of the vessel")
         
     # compute scale factors
-    scale_factors                       = cpmanip.scale_factor_test(num_contours,length_id,scale_id,long_asym_id,control_point_id)
+    scale_factors                       = cpmanip.scale_factor_test(num_contours,length_id,scale_id,long_asym_id,control_point_id,steepness)
     print("Scale factors:")
     print(scale_factors)
     # Contour manipulation
