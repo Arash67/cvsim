@@ -35,10 +35,7 @@ def scale_factor_insert(scale_factor,scale_factor_local,start_id):
 		if sid > (start_id -1):
 			scale_factor[sid]           = scale_factor_local[indx_counter]
 			indx_counter                += 1
-		else:
-			# do nothing
-		print("number of updated contours: {0:d}".format(indx_counter))
-		# end for
+	print("number of updated contours: {0:d}".format(indx_counter))
 	return scale_factor
 def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,location_id):
 	scale_factor                        = []
