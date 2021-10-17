@@ -37,15 +37,15 @@ def scale_factor_insert(scale_factor,scale_factor_local,start_id):
 			indx_counter                += 1
 	print("number of updated contours: {0:d}".format(indx_counter))
 	return scale_factor
-def scale_factor_test(number_of_contours,lenght_id,maximum_diameter_change,asymetry_coef,location_id):
+def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asymetry_coef,location_id):
 	scale_factor                        = []
 	for i in range(number_of_contours): scale_factor.append(float(1))
-	if (lenght_id % 2 !=0): 
-		lenght_id -=1
-	half_num                        = int(lenght_id/2)
+	if (length_id % 2 !=0): 
+		length_id -=1
+	half_num                        = int(length_id/2)
 	center_id                       = location_id
 	start_id                        = center_id - half_num
-	stop_id                         = start_id + lenght_id
+	stop_id                         = start_id + length_id
 	center_dislocation              = int(half_num * asymetry_coef)
 	center_id                       = center_id + center_dislocation
 	number_of_proximal_contours     = center_id - start_id
