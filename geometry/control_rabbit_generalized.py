@@ -286,8 +286,9 @@ def main():
     num_contours                        = len(contours)
     
     # compute scale factors
-    scale_factors                       = cpmanip.scale_factor_test(length_id,scale_id,long_asym_id,control_point_id)
-    
+    scale_factors                       = cpmanip.scale_factor_test(num_contours,length_id,scale_id,long_asym_id,control_point_id)
+    print("Scale factors:")
+    print(scale_factors)
     # Contour manipulation
     contours_manip                      = []
     for i in range(len(contours)-1):
@@ -314,6 +315,3 @@ def main():
 
     
 main()
-
-
-
