@@ -50,7 +50,7 @@ def pwr(scale_id,steepness,curr_cont_num):
 '''
                                                        
 
-def scale_factor_test(number_of_contours,maximum_diameter_reduction,asymetry_coef,location_id):
+def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,location_id):
     scale_factor                        = []
     for i in range(number_of_contours): scale_factor.append(float(1))
     tmp_len_id                          = number_of_contours
@@ -69,10 +69,8 @@ def scale_factor_test(number_of_contours,maximum_diameter_reduction,asymetry_coe
     print("Total contour numbers: {0:d}".format(number_of_contours))
     print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
     print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
-    for i in range(number_of_proximal_contours): prox_scale_factors.append(float(sigmoid(maximum_diameter_reduction,number_of_proximal_contours,i))
-    for i in range(number_of_distal_contours): dist_scale_factors.append(float(sigmoid(maximum_diameter_reduction,number_of_distal_contours,i))
-    # common_ratio                        = np.power((0.5*scale_id/steepness),(1/(dist_cont_num-1)))
-         
+    for i in range(number_of_proximal_contours): prox_scale_factors.append(float(sigmoid(maximum_diameter_change,number_of_proximal_contours,i))
+    for i in range(number_of_distal_contours): dist_scale_factors.append(float(sigmoid(maximum_diameter_change,number_of_distal_contours,i))
     # sort the scale lists
     dist_scale_list                     = np.sort(dist_scale_factors)
     # sort in descending order
