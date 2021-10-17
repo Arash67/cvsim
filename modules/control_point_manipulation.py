@@ -20,35 +20,17 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
     k                                   = 1 
     # x : current disrtance from the left end
     x                                   = (current_contour_number*12) / number_of_contours
-    # x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is 
+    # x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is current assumtion is scaled range of 12 woth 50% happening at 6
     x0                                  = 6
-    
-    output                              = []
     if scale_factor < 1:
         # contraction
         temp                            = 1 - (L / (1 + math.exp(-k*(int(x-x0)))))
     else:
         # explantion
         temp                            = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
-    output_scale_factor = temp
-    return output_scale_factor
-
-                                                       
-'''
-def pwr(scale_id,steepness,curr_cont_num):
-    print("WARNING: pwr model does not accuratly resemble scale_id if values other than 0.5 is used for steepness!")
-    # a: coeffitient
-    # r: base
-    # p: power
-    # return = a(r)^p
-    # steepness must be between 0 and 1, it ist 0.5, scale_id is accruate, if not, scale_id will have some error
-    steepness = numpy.absolute(steepness)
-    a = 1
-    r = (0.5*scale_id/steepness)
-    p = (1/(curr_cont_num-1)
-    return np.power(r,p)
-'''
-                                                       
+    print("Current scale factor: {0:d}".format(temp))
+    current_scale_factor = temp
+    return current_scale_factor                                          
 
 def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,location_id):
     scale_factor                        = []
