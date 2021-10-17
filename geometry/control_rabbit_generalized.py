@@ -95,7 +95,8 @@ seg_fulldir                 = cvsim + input_dir + seg_name
 # number of contours to be manipulated in the region, indicator of the length of the affected region
 length_id                   = 6
 # diameter reduction at most stenotic segment
-scale_id                    = 0.5
+perc_diameter_reduction     = 80
+scale_id                    = 1-(perc_diameter_reduction/100)
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
 # long_asym_id                = -0.2
 # long_asym_id                = 0.2
