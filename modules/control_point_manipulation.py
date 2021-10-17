@@ -67,9 +67,13 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
     print("Distal scale factor list:")
     print(dist_scale_factors)
     scale_factor_local                  = np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
-    for i in range(len(scale_factor_local)-1):
-        indx                            = start_id + i
-        scale_factor[indx]              = scale_factor_local[i]
+    indx_counter                        = 0
+    for sid in range(len(scale_factor)-1):
+        if sid > (start_id -1):
+            scale_factor[sid]           = scale_factor_local[indx_counter]
+            indx_counter                += 1
+        else:
+            # do nothing
     print("Scale factor size: {0:d}".format(len(scale_factor)))
     print("Scale factor:")
     print(scale_factor)
