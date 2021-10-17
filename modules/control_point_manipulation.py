@@ -28,7 +28,7 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
     else:
         # explantion
         output                          = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
-    return output
+return output
 '''
 def pwr(scale_id,steepness,curr_cont_num):
     print("WARNING: pwr model does not accuratly resemble scale_id if values other than 0.5 is used for steepness!")
