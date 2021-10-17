@@ -29,8 +29,7 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
         # explantion
         temp                            = 1 + ((L-1) / (1 + math.exp(-k*(int(x-x0)))))
     print("Current scale factor: {0:d}".format(temp))
-    current_scale_factor = temp
-    return current_scale_factor                                          
+    return temp                                          
 
 def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,location_id):
     scale_factor                        = []
