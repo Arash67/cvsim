@@ -74,7 +74,10 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
             indx_counter                += 1
         else:
             # do nothing
+        # end for
+    
     return scale_factor
+
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
     temp_outer_points                   = new_outer_points.copy()
     new_dists                           = dists * scale_factor
