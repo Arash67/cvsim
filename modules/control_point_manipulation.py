@@ -45,20 +45,22 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
     center_id                       = center_id + center_dislocation
     number_of_proximal_contours     = center_id - start_id
     number_of_distal_contours       = stop_id - center_id
+    print("Start ID: {0:d}".format(start_id))
+    print("Center ID: {0:d}".format(center_id))
+    print("Stop ID: {0:d}".format(stop_id))
     prox_scale_factors              = []
     dist_scale_factors              = []
     print("Total contour numbers: {0:d}".format(number_of_contours))
     print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
     print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
-		
-    for i in range(number_of_proximal_contours):
-        prox_scale_factors.append(float(sigmoid(maximum_diameter_change,number_of_proximal_contours,i))
     
-    for i in range(number_of_distal_contours):
-        dist_scale_factors.append(float(sigmoid(maximum_diameter_change,number_of_distal_contours,i))
-	  
+    for i in range(number_of_proximal_contours):
+        prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i))
+    for s in range(number_of_distal_contours):
+        dist_scale_factors.append(sigmoid(maximum_diameter_change,number_of_distal_contours,s))
+    
     # sort the scale lists
-    dist_scale_list                     = np.sort(dist_scale_factors)
+    dist_scale_list                       = np.sort(dist_scale_factors)
     # sort in descending order
     # dist_scale_list                     = np.sort(dist_scale_list)[::-1] 
     print("Proximal scale factor list:")
