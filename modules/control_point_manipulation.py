@@ -34,7 +34,8 @@ def scale_factor_insert(scale_factor,scale_factor_local,start_id):
 	for sid in range(len(scale_factor)-1):
 		if sid > (start_id -1):
 			scale_factor[sid]           = scale_factor_local[indx_counter]
-			indx_counter                += 1
+			if sid < stop_id:
+				indx_counter                += 1
 	print("number of updated contours: {0:d}".format(indx_counter))
 	return scale_factor
 def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asymetry_coef,location_id):
