@@ -27,10 +27,10 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 	print(x-x0)
 	if scale_factor < 1:
 		# contraction
-		temp                            = 1 - (L / (1 + math.exp(-k*(int(x-x0)))))
+		temp                            = 1 - (L / (1 + math.exp(-k*(x-x0))))
 	else:
 		# explantion
-		temp                            = 1 + ((L-1) / (1 + math.exp(-k*(int(x-x0)))))
+		temp                            = 1 + ((L-1) / (1 + math.exp(-k*(x-x0))))
 	return temp 
 def scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id):
 	indx_counter = 0
@@ -38,7 +38,9 @@ def scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id):
 		if sid > (start_id -1):
 			scale_factor[sid]           = scale_factor_local[indx_counter]
 			if sid < stop_id-1:
-				indx_counter                += 1
+				indx_counter            += 1
+			else:
+				scale_factor[sid]		= 1
 	print("number of updated contours: {0:d}".format(indx_counter))
 	return scale_factor
 def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asymetry_coef,location_id):
