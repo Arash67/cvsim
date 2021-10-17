@@ -29,12 +29,12 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 		# explantion
 		temp                            = 1 + ((L-1) / (1 + math.exp(-k*(int(x-x0)))))
 	return temp 
-def scale_factor_insert(scale_factor,scale_factor_local,start_id):
+def scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id):
 	indx_counter = 0
 	for sid in range(len(scale_factor)-1):
 		if sid > (start_id -1):
 			scale_factor[sid]           = scale_factor_local[indx_counter]
-			if sid < stop_id:
+			if sid < stop_id-1:
 				indx_counter                += 1
 	print("number of updated contours: {0:d}".format(indx_counter))
 	return scale_factor
@@ -74,7 +74,7 @@ def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asyme
 	print(dist_scale_factors)
 	scale_factor_local                  	= np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
 	indx_counter                        	= 0
-	scale_factor				= scale_factor_insert(scale_factor,scale_factor_local,start_id)
+	scale_factor				= scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id)
 	return scale_factor
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
 	temp_outer_points                   = new_outer_points.copy()
