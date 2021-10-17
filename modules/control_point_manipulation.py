@@ -30,7 +30,7 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 		temp                            = 1 + ((L-1) / (1 + math.exp(-k*(int(x-x0)))))
 	return temp 
 def scale_factor_insert(scale_factor,scale_factor_local,start_id):
-	indx_id = 0
+	indx_counter = 0
 	for sid in range(len(scale_factor)-1):
 		if sid > (start_id -1):
 			scale_factor[sid]           = scale_factor_local[indx_counter]
