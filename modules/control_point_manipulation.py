@@ -13,49 +13,68 @@ def vary_points_test(center,outer_points,scale_factor):
     new_points                          = radial_expansion_test(center,outer_points,dists,unit_vectors,scale_factor)
     new_points                          = to_lists_2d(new_points)
     return new_points
-
-def scale_factor_test(length_id,scale_id,discrt_id,long_asym_id,num_contours,control_point_id):
+def sigmoid(scale_factor,number_of_contours,current_contour_number):
+    # L : amplituded must be between indicating diameter reduction (between 0 and one) or expantion ratio (larger than one)
+    L                                   = scale_factor
+    # k : steepness (-1 to zero is smooth, 0 is logistic default function, and 0 to 1 is sharp 
+    k                                   = 1 
+    # x : current disrtance from the left end
+    x                                   = (current_contour_number*12) / number_of_contours
+    # x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is 
+    x0                                  = 6
+    if scale_factor < 1:
+        # contraction
+        output                          = 1 - (L / (1 + math.exp(-k*(int(x-x0)))))
+    else:
+        # explantion
+        output                          = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
+    return  output
+'''
+def pwr(scale_id,steepness,curr_cont_num):
+    print("WARNING: pwr model does not accuratly resemble scale_id if values other than 0.5 is used for steepness!")
+    # a: coeffitient
+    # r: base
+    # p: power
+    # return = a(r)^p
+    # steepness must be between 0 and 1, it ist 0.5, scale_id is accruate, if not, scale_id will have some error
+    steepness = numpy.absolute(steepness)
+    a = 1
+    r = (0.5*scale_id/steepness)
+    p = (1/(curr_cont_num-1)
+    return np.power(r,p)
+'''
+def scale_factor_test(number_of_contours,maximum_diameter_reduction,asymetry_coef,location_id):
     scale_factor                        = []
-    for i in range(num_contours): scale_factor.append(float(1))
-    # print(scale_factor)
-def sigmoid(L,k,x0,x):
-    return L / (1 + math.exp(-k*(x-x0))) 
-    
-    tmp_len_id                          = length_id
-    if (length_id % 2 !=0): 
-        tmp_len_id -=1
-    half_num                        = int(tmp_len_id/2)
-    center_id                       = control_point_id
+    for i in range(number_of_contours): scale_factor.append(float(1))
+    tmp_len_id                          = number_of_contours
+    if (number_of_contours % 2 !=0): 
+        number_of_contours -=1
+    half_num                        = int(number_of_contours/2)
+    center_id                       = location_id
     start_id                        = center_id - half_num
-    stop_id                         = start_id + length_id
-    long_asym_dislocation           = int(half_num * long_asym_id)
-    center_id                       = center_id + long_asym_dislocation
-    prox_cont_num                   = center_id - start_id
-    dist_cont_num                   = stop_id - center_id
-    prox_scale_list                 = []
-    dist_scale_list                 = []
-    print("Total contour numbers: {0:d}".format(num_contours))
-    print("Proximal contour numbers: {0:d}".format(prox_cont_num))
-    print("Distal contour numbers: {0:d}".format(dist_cont_num))
-    # discrete_id (values between 0 and 1) defines how fast area drops, however currently method is limited only to 0.5 and other values cause deviation from scale_id 
-    discrt_id                           = 0.5                     
-    coef_a                              = 1
-    power equation
-    common_ratio                        = np.power((0.5*scale_id/discrt_id),(1/(prox_cont_num-1)))
-    # logistic equation
-    # common_ratio                        = sigmoid(1.0,discrt_id,)
-
-    for i in range(prox_cont_num): prox_scale_list.append(float(coef_a*common_ratio**i))
-    common_ratio                        = np.power((0.5*scale_id/discrt_id),(1/(dist_cont_num-1)))
-    for i in range(dist_cont_num): dist_scale_list.append(float(coef_a*common_ratio**i))
-    dist_scale_list                     = np.sort(dist_scale_list)
+    stop_id                         = start_id + number_of_contours
+    center_dislocation              = int(half_num * asymetry_coef)
+    center_id                       = center_id + center_dislocation
+    number_of_proximal_contours     = center_id - start_id
+    number_of_distal_contours       = stop_id - center_id
+    prox_scale_factors              = []
+    dist_scale_factors              = []
+    print("Total contour numbers: {0:d}".format(number_of_contours))
+    print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
+    print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
+    for i in range(number_of_proximal_contours): prox_scale_factors.append(float(sigmoid(maximum_diameter_reduction,number_of_proximal_contours,i))
+    for i in range(number_of_distal_contours): dist_scale_factors.append(float(sigmoid(maximum_diameter_reduction,number_of_distal_contours,i))
+    # common_ratio                        = np.power((0.5*scale_id/steepness),(1/(dist_cont_num-1)))
+         
+    # sort the scale lists
+    dist_scale_list                     = np.sort(dist_scale_factors)
     # sort in descending order
     # dist_scale_list                     = np.sort(dist_scale_list)[::-1] 
-    print("Proximal scale list:")
-    print(prox_scale_list)
-    print("Distal scale list:")
-    print(dist_scale_list)
-    scale_factor_local                  = np.concatenate((prox_scale_list,dist_scale_list),axis=None)
+    print("Proximal scale factor list:")
+    print(prox_scale_factors)
+    print("Distal scale factor list:")
+    print(dist_scale_factors)
+    scale_factor_local                  = np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
     for i in range(len(scale_factor_local)-1):
         indx                            = start_id + i
         scale_factor[indx]              = scale_factor_local[i]
