@@ -64,9 +64,9 @@ def scale_factor_test(number_of_contours,length_id,maximum_diameter_change,asyme
 	print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
 	print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
 	for i in range(number_of_proximal_contours):
-		prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i))
+		prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i+1))
 	for s in range(number_of_distal_contours):
-		dist_scale_factors.append(sigmoid(maximum_diameter_change,number_of_distal_contours,s))
+		dist_scale_factors.append(sigmoid(maximum_diameter_change,number_of_distal_contours,s+1))
 	# sort the scale lists
 	dist_scale_factors                       = np.sort(dist_scale_factors)
 	# sort in descending order
