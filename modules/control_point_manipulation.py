@@ -53,10 +53,10 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
 		
     for i in range(number_of_proximal_contours):
         prox_scale_factors.append(float(sigmoid(maximum_diameter_change,number_of_proximal_contours,i))
-		
+    
     for i in range(number_of_distal_contours):
-        dist_scale_factors.append(float(sigmoid(maximum_diameter_change,number_of_distal_contours,i))                                  
-		
+        dist_scale_factors.append(float(sigmoid(maximum_diameter_change,number_of_distal_contours,i))
+	  
     # sort the scale lists
     dist_scale_list                     = np.sort(dist_scale_factors)
     # sort in descending order
