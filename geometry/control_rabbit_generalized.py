@@ -102,7 +102,7 @@ scale_id                    = perc_diameter_reduction/100
 # long_asym_id                = 0.2
 long_asym_id                = 0.0
 # narrowing location identified by control point id
-control_point_id            = 13
+control_point_id            = 16
 
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
