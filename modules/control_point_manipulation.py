@@ -29,7 +29,6 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 		# explantion
 		temp                            = 1 + ((L-1) / (1 + math.exp(-k*(int(x-x0)))))
 	return temp                                          
-
 def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,location_id):
 	scale_factor                        = []
 	for i in range(number_of_contours): scale_factor.append(float(1))
@@ -52,12 +51,10 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
 	print("Total contour numbers: {0:d}".format(number_of_contours))
 	print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
 	print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
-	
 	for i in range(number_of_proximal_contours):
 		prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i))
 	for s in range(number_of_distal_contours):
 		dist_scale_factors.append(sigmoid(maximum_diameter_change,number_of_distal_contours,s))
-	
 	# sort the scale lists
 	dist_scale_list                       = np.sort(dist_scale_factors)
 	# sort in descending order
@@ -75,9 +72,7 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
 		else:
 			# do nothing
 		# end for
-	
 	return scale_factor
-
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
 	temp_outer_points                   = new_outer_points.copy()
 	new_dists                           = dists * scale_factor
