@@ -22,13 +22,15 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
     x                                   = (current_contour_number*12) / number_of_contours
     # x0: x at 50% drop used to include longitudinal asymetry of how close to the narrwoing the 50% drop is 
     x0                                  = 6
+    
+    output                              = []
     if scale_factor < 1:
         # contraction
         output                          = 1 - (L / (1 + math.exp(-k*(int(x-x0)))))
     else:
         # explantion
         output                          = 1 + (L-1) / (1 + math.exp(-k*(int(x-x0)))
-return output
+    return output
 '''
 def pwr(scale_id,steepness,curr_cont_num):
     print("WARNING: pwr model does not accuratly resemble scale_id if values other than 0.5 is used for steepness!")
