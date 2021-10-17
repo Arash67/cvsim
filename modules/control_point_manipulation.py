@@ -28,7 +28,17 @@ def sigmoid(scale_factor,number_of_contours,current_contour_number):
 	else:
 		# explantion
 		temp                            = 1 + ((L-1) / (1 + math.exp(-k*(int(x-x0)))))
-	return temp                                          
+	return temp 
+def scale_factor_insert(scale_factor,scale_factor_local,start_id):
+	indx_id = 0
+	for sid in range(len(scale_factor)-1):
+		if sid > (start_id -1):
+			scale_factor[sid]           = scale_factor_local[indx_counter]
+			indx_counter                += 1
+		else:
+			# do nothing
+		# end for
+	return scale_factor
 def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,location_id):
 	scale_factor                        = []
 	for i in range(number_of_contours): scale_factor.append(float(1))
@@ -65,13 +75,7 @@ def scale_factor_test(number_of_contours,maximum_diameter_change,asymetry_coef,l
 	print(dist_scale_factors)
 	scale_factor_local                  = np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
 	indx_counter                        = 0
-	for sid in range(len(scale_factor)-1):
-		if sid > (start_id -1):
-			scale_factor[sid]           = scale_factor_local[indx_counter]
-			indx_counter                += 1
-		else:
-			# do nothing
-		# end for
+	scale_factor						= scale_factor_insert(scale_factor,scale_factor_local,start_id)
 	return scale_factor
 def radial_expansion_test(center,new_outer_points,dists,unit_vectors,scale_factor):
 	temp_outer_points                   = new_outer_points.copy()
