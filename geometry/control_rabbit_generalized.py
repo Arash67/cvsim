@@ -98,13 +98,13 @@ length_id                   = 10
 perc_diameter_reduction     = 70
 scale_id                    = perc_diameter_reduction/100
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
-# long_asym_id                = -0.2
-# long_asym_id                = 0.2
-long_asym_id                = 0.0
+long_asym_id                = -0.2
 # narrowing location identified by control point id
 control_point_id            = 30
 # steepness
-steepness                   = 1
+steepness                   = 1.5
+# x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
+x50                         = 0.7
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
     # .ctgr includes center and distance control points, followed by outer control points
@@ -291,7 +291,7 @@ def main():
         print("ERROR: changes propagate beyond the first segment of the vessel")
         
     # compute scale factors
-    scale_factors                       = cpmanip.scale_factor_test(num_contours,length_id,scale_id,long_asym_id,control_point_id,steepness)
+    scale_factors                       = cpmanip.scale_factor_test(num_contours,length_id,scale_id,long_asym_id,control_point_id,steepness,x50)
     print("Scale factors:")
     print(scale_factors)
     # Contour manipulation
