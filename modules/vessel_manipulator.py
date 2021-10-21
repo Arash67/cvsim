@@ -169,7 +169,7 @@ def loft(vessel_id,contours,cvsimout):
     loft_capped = sv.vmtk.cap(surface=loft_surf, use_center=False)
 
     # We dont need to save the ugly_file, it will be remeshed
-    ugly_file = cvsimout + vessel_id + "_capped-loft-surface.vtp"
+    ugly_file = cvsimout + vessel_id + "_capped_loft_surface.vtp"
     writer = vtk.vtkXMLPolyDataWriter()
     writer.SetFileName(ugly_file)
     writer.SetInputData(loft_capped)
@@ -329,7 +329,7 @@ def manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par)
     loft_capped                         = loft(vessel_id,contours_manip,cvsimout)
     remesh(loft_capped,cvsimout)
     # mesh
-    do_mesh(vessel_id,cvsimout,vessel_id + "_capped-loft-surface.vtp",mesh_par)
+    do_mesh(vessel_id,cvsimout,vessel_id + "_capped_loft_surface.vtp",mesh_par)
     
     # Draw segmentation
     # draw_segmentations(cvsim,contours_manip)
