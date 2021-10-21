@@ -149,7 +149,7 @@ def get_profile_contour(contours, cid, npts):
     cont_pd = cont.get_polydata()
     cont_ipd = sv.geometry.interpolate_closed_curve(polydata=cont_pd, number_of_points=npts)
     return cont_ipd
-def loft(contours,cvsimout):
+def loft(vessel_id,contours,cvsimout):
     num_contours = len(contours)
     num_profile_points = 50
     use_distance = True
@@ -169,7 +169,7 @@ def loft(contours,cvsimout):
     loft_capped = sv.vmtk.cap(surface=loft_surf, use_center=False)
 
     # We dont need to save the ugly_file, it will be remeshed
-    ugly_file = cvsimout + "capped-loft-surface.vtp"
+    ugly_file = cvsimout + str(vessel_id,"_capped-loft-surface.vtp")
     writer = vtk.vtkXMLPolyDataWriter()
     writer.SetFileName(ugly_file)
     writer.SetInputData(loft_capped)
@@ -193,7 +193,7 @@ def remesh(loft_capped,cvsimout):
   
 # D:======================================================= MESHING
 # see https://github.com/SimVascular/SimVascular-Tests/blob/master/new-api-tests/meshing/tetgen-options.py
-def do_mesh(cvsimout,file_name,mesh_par):
+def do_mesh(vessel_id,cvsimout,file_name,mesh_par):
     mesher = sv.meshing.create_mesher(sv.meshing.Kernel.TETGEN)
     options = sv.meshing.TetGenOptions(global_edge_size=mesh_par[0], surface_mesh_flag=True, volume_mesh_flag=True) 
     mesher.load_model(cvsimout + file_name)
@@ -233,10 +233,10 @@ def do_mesh(cvsimout,file_name,mesh_par):
     ## Export the mesh-complete files
     for i in range(4):#complete exterior and 3 faces
         if i==0:
-            temp_name = cvsimout + 'mesh-complete.exterior.vtp'
+            temp_name = cvsimout + str(vessel_id,"_mesh_complete_exterior.vtp")
             surf_mesh = mesher.get_surface()
         else:
-            temp_name = cvsimout + str(i) + ".vtp"
+            temp_name = cvsimout + str(vessel_id,"_mesh_face_",i,".vtp")
             surf_mesh = mesher.get_face_polydata(i)
         writer = vtk.vtkXMLPolyDataWriter()
         writer.SetFileName(temp_name)
@@ -245,7 +245,7 @@ def do_mesh(cvsimout,file_name,mesh_par):
         writer.Write()
         #Main wall
         if i==1:
-            temp_name2 = cvsimout + 'walls_combined.vtp'
+            temp_name2 = cvsimout + str(vessel_id ,"_walls_combined.vtp")
             copyfile(temp_name,temp_name2)
 
 #========================================================================================= GRAPHICS  
@@ -295,7 +295,7 @@ def draw_segmentations(cvsim,contours):
     gr.display(renderer_window)
 
 # Z:======================================================= MAIN
-def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par):
+def manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par):
     length_id                           = vessel_par[0]
     scale_id                            = vessel_par[1]
     long_asym_id                        = vessel_par[2]
@@ -326,10 +326,10 @@ def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par):
     #print(contours_manip)
     
     # loft, remesh, and save the model as vtp files
-    loft_capped                         = loft(contours_manip,cvsimout)
+    loft_capped                         = loft(vessel_id,contours_manip,cvsimout)
     remesh(loft_capped,cvsimout)
     # mesh
-    do_mesh(cvsimout,"capped-loft-surface.vtp",mesh_par)
+    do_mesh(vessel_id,cvsimout,"capped-loft-surface.vtp",mesh_par)
     
     # Draw segmentation
     # draw_segmentations(cvsim,contours_manip)
