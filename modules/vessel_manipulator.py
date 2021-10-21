@@ -228,12 +228,12 @@ def do_mesh(vessel_id,cvsimout,file_name,mesh_par):
     print("  Number of elements: {0:d}".format(mesh.GetNumberOfCells()))
 
     ## Write the mesh.
-    mesher.write_mesh(file_name = cvsimout + 'mesh-complete.mesh.vtu')
+    mesher.write_mesh(file_name = cvsimout + vessel_id + "_mesh_complete_mesh.vtu")
 
     ## Export the mesh-complete files
     for i in range(4):#complete exterior and 3 faces
         if i==0:
-            temp_name = cvsimout + str(vessel_id,"_mesh_complete_exterior.vtp")
+            temp_name = cvsimout + vessel_id + "_mesh_complete_exterior.vtp"
             surf_mesh = mesher.get_surface()
         else:
             temp_name = cvsimout + str(vessel_id,"_mesh_face_",i,".vtp")
@@ -245,7 +245,7 @@ def do_mesh(vessel_id,cvsimout,file_name,mesh_par):
         writer.Write()
         #Main wall
         if i==1:
-            temp_name2 = cvsimout + str(vessel_id ,"_walls_combined.vtp")
+            temp_name2 = cvsimout + vessel_id + "_walls_combined.vtp"
             copyfile(temp_name,temp_name2)
 
 #========================================================================================= GRAPHICS  
