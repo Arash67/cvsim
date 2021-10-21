@@ -59,13 +59,21 @@ script_fulldir              = cvsim + script_dir + script_name
 print("script full directory:")
 print(script_fulldir)
 # B3b: *.ctgr fulldir
-# seg_name                    = "control_rabbit_32181_S01AO_splinepoly2.ctgr"
+
+#seg_name                    = "control_rabbit_32181_S01AO_splinepoly2.ctgr"
 #seg_name                    = "control_rabbit_32181_S02RS_splinepoly.ctgr"
-seg_name                    = "control_rabbit_32181_S03RC_splinepoly.ctgr"
+#seg_name                    = "control_rabbit_32181_S03RC_splinepoly.ctgr"
 #seg_name                    = "control_rabbit_32181_S04LC_splinepoly.ctgr"
 #seg_name                    = "control_rabbit_32181_S05LS_splinepoly.ctgr"
 
-seg_fulldir                 = cvsim + input_dir + seg_name
+seg_names                   = ["control_rabbit_32181_S01AO_splinepoly2.ctgr"
+                              ,"control_rabbit_32181_S02RS_splinepoly.ctgr"
+                              ,"control_rabbit_32181_S03RC_splinepoly.ctgr"
+                              ,"control_rabbit_32181_S04LC_splinepoly.ctgr"
+                              ,"control_rabbit_32181_S04LS_splinepoly.ctgr"]
+
+branch_name_list            = ["AO","RS","RC","LC","LS"]
+# seg_fulldir                 = cvsim + input_dir + seg_name
 
 # B4: manipulation parameters for single aortic narrowing
 # number of contours to be manipulated in the region, indicator of the length of the affected region
@@ -81,7 +89,7 @@ control_point_id            = 3
 steepness                   = 1.5
 # x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
 x50                         = 0.7
-AO_manip_par                = [length_id,scale_id,long_asym_id,control_point_id,steepness,x50]
+
 
 # mesh parameters
 global_max_edge_size        = 0.05
@@ -90,10 +98,21 @@ edge_size_fraction          = 0.5
 layer_decreasing_ratio      = 0.8
 angle                       = 60
 boundarylayer_meshing       = 0
-mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio,angle,boundarylayer_meshing]
 
-# geometry manipulation
-case_id                    = 1
-Vessel_id                   = str("Case_",case_id,"_RC")
-vmanip.manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,AO_manip_par,mesh_par)
+case_id                     = 1
+
+# control_point_manipulation: morphological scaling, loft, mesh, save .vtp, (performs morphological morphological manipulation only on AO and the branches are just meshed as imported)
+for i in range(len(seg_names)):
+  if i == 0:                    # modify aorta geometry
+    AO_manip_par                = [length_id,scale_id,long_asym_id,control_point_id,steepness,x50]
+    mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio,angle,boundarylayer_meshing]
+  else:                         # leave the AO branches unchanges 
+    AO_manip_par                = [3,1.0,0,3,1.5,0.7]
+    mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio,angle,boundarylayer_meshing]
+  vessel_id                   = "Case_" + str(case_id) + "_" + branch_name_list[i]
+  # call the manipulator
+  vmanip.manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,AO_manip_par,mesh_par)
+
+# union the aorta and branches
+
 
