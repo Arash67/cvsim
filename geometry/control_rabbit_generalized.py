@@ -26,40 +26,11 @@ home                    = str(Path.home())
 cvsim                   = home + "/github/cvsim/"
 cvsimout                = home + "/github/outofsource/cvsimout/"
 # B2: modules
-# B2a: import sv module that allows access to simvascular modeling pipeline which is available in gui 
-import sv
-# B2b: import os, add additional notes heare if needed
 import os
-# B2c: import sys, add additional notes heare if needed
 import sys
-# B2d: import vtk, add additional notes heare if needed
-import vtk
-# B2e: import numpy, add additional notes here if needed
-import numpy as np
-# B2f: import shutil, add additional notes here if needed
-from shutil import copyfile
-# B2g: import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
-# NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
-graphics_dir                = cvsim + "modules/graphics/"
-print("graphics module directory:")
-print(graphics_dir)
-try:
-    sys.path.insert(1, graphics_dir)
-except:
-    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
-# B2h: import graphics module
-import graphics as gr
-# B2i: import paraview module
-# NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
-paraview_dir                =  "/usr/lib/python3/dist-packages/paraview"
-print("paraview package directory:")
-print(paraview_dir)
-try:
-    sys.path.insert(1, paraview_dir)
-except:
-    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
 
-# import paraview as pv
+
+
 # other local modules
 vmanip_dir                   = cvsim + "modules/"
 print("control_point_manipulation:")
@@ -88,255 +59,37 @@ script_fulldir              = cvsim + script_dir + script_name
 print("script full directory:")
 print(script_fulldir)
 # B3b: *.ctgr fulldir
-seg_name                    = "control_rabbit_32181_S01AO_splinepoly2.ctgr"
+# seg_name                    = "control_rabbit_32181_S01AO_splinepoly2.ctgr"
+#seg_name                    = "control_rabbit_32181_S02RS_splinepoly.ctgr"
+seg_name                    = "control_rabbit_32181_S03RC_splinepoly.ctgr"
+#seg_name                    = "control_rabbit_32181_S04LC_splinepoly.ctgr"
+#seg_name                    = "control_rabbit_32181_S05LS_splinepoly.ctgr"
+
 seg_fulldir                 = cvsim + input_dir + seg_name
 
 # B4: manipulation parameters for single aortic narrowing
 # number of contours to be manipulated in the region, indicator of the length of the affected region
-length_id                   = 10
+length_id                   = 3
 # diameter reduction at most stenotic segment
-perc_diameter_reduction     = 70
+perc_diameter_reduction     = 0
 scale_id                    = perc_diameter_reduction/100
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
-long_asym_id                = -0.2
+long_asym_id                = 0
 # narrowing location identified by control point id
-control_point_id            = 30
+control_point_id            = 3
 # steepness
 steepness                   = 1.5
 # x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
 x50                         = 0.7
-AO_manip_par                =[length_id,scale_id,long_asym_id,control_point_id,steepness,x50]
+AO_manip_par                = [length_id,scale_id,long_asym_id,control_point_id,steepness,x50]
 
-vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,AO_manip_par)
+# mesh parameters
+global_max_edge_size        = 0.05
+number_of_layers            =2
+edge_size_fraction          =0.5
+layer_decreasing_ratio      =0.8
+mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio]
 
+# geometry manipulation
+vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,AO_manip_par,)
 
-'''
-# C:======================================================= SEGMENTATION
-def set_spline(control_points):
-    # .ctgr includes center and distance control points, followed by outer control points
-    # this function takes outer control points only
-    seg = sv.segmentation.SplinePolygon(control_points=control_points)
-    seg.set_subdivision_params(type=sv.segmentation.SubdivisionType.CONSTANT_SPACING)
-    return seg
-def set_splines(control_points_list):
-    segs = [set_spline(control_points) for control_points in control_points_list]
-    return segs
-def read_contours(cvsim,input_dir,filename):     # reads contours form *.ctgr
-    file_name = cvsim + input_dir + filename
-    print("Read SV ctgr file: {0:s}".format(file_name))
-    contour_group = sv.segmentation.Series(file_name)
-    num_conts = contour_group.get_num_segmentations()
-    contours = []
-
-    for i in range(num_conts):
-        cont = contour_group.get_segmentation(i)
-        contours.append(cont)
-
-    print("Number of contours: {0:d}".format(num_conts))
-    return contours
- # Manipulation of Contour
-def get_center_outer(contour):
-    return contour.get_center(),contour.get_control_points()
-def manipulate_contour(contour,scale_factor):
-    """
-    Radially expand or contract given contour
-    scale_factor is a np.array of same length as contour. values >1 is expansion, values <1 is contraction
-    """
-    center,outer = get_center_outer(contour)
-    new_outer = manip.vary_points_test(center,outer,scale_factor=scale_factor)
-    contour = set_spline(new_outer)
-    return contour
-def get_center_outer(contour):
-    return contour.get_center(),contour.get_control_points()
-def manipulate_contour(contour,scale_factor):
-    """
-    Radially expand or contract given contour
-    scale_factor is a np.array of same length as contour. values >1 is expansion, values <1 is contraction
-    """
-    center,outer = get_center_outer(contour)
-    new_outer = cpmanip.vary_points_test(center,outer,scale_factor=scale_factor)
-    contour = set_spline(new_outer)
-    return contour
-
-# D:======================================================= MODELING
-def get_profile_contour(contours, cid, npts):
-    cont = contours[cid]
-    cont_pd = cont.get_polydata()
-    cont_ipd = sv.geometry.interpolate_closed_curve(polydata=cont_pd, number_of_points=npts)
-    return cont_ipd
-def loft(contours):
-    num_contours = len(contours)
-    num_profile_points = 50
-    use_distance = True
-    contour_list = []
-    start_cid = 0
-    end_cid = num_contours
-    for cid in range(start_cid,end_cid):
-        cont_ipd = get_profile_contour(contours, cid, num_profile_points)
-        if cid == start_cid:
-            cont_align = cont_ipd
-        else:
-            cont_align = sv.geometry.align_profile(last_cont_align, cont_ipd, use_distance)
-        contour_list.append(cont_align)
-        last_cont_align = cont_align
-    options = sv.geometry.LoftNurbsOptions()
-    loft_surf = sv.geometry.loft_nurbs(polydata_list=contour_list, loft_options=options)#, num_divisions=12
-    loft_capped = sv.vmtk.cap(surface=loft_surf, use_center=False)
-
-    # We dont need to save the ugly_file, it will be remeshed
-    ugly_file = cvsimout + "capped-loft-surface.vtp"
-    writer = vtk.vtkXMLPolyDataWriter()
-    writer.SetFileName(ugly_file)
-    writer.SetInputData(loft_capped)
-    writer.Update()
-    writer.Write()
-    return loft_capped
-def remesh(loft_capped):
-    modeler = sv.modeling.Modeler(sv.modeling.Kernel.POLYDATA)
-    model = sv.modeling.PolyData()
-    model.set_surface(surface=loft_capped)
-    model.compute_boundary_faces(angle=60.0)
-    remesh_model = sv.mesh_utils.remesh(model.get_polydata(), hmin=0.1, hmax=0.3)
-    model.set_surface(surface=remesh_model)
-    model.compute_boundary_faces(angle=60.0)
-    model.write(cvsimout, format="vtp")
-    polydata = model.get_polydata()
-    print("Model: ")
-    print("  Number of points: " + str(polydata.GetNumberOfPoints()))
-    print("  Number of cells: " + str(polydata.GetNumberOfCells()))
-    return cvsimout + '.vtp',polydata
-def combiner(AO_vtp,RS_vtp,RC_vtp,LC_vtp,LS_vtp):
-    # define modeling kernel
-    kernel      = sv.modeling.Kernel.POLYDATA 
-    modeler     = sv.modeling.Modeler(kernel)
-    # read the models in 
-    AO_modeler  = modeler.read(AO_vtp)
-    RS_modeler  = modeler.read(RS_vtp)
-    RC_modeler  = modeler.read(RC_vtp)
-    LC_modeler  = modeler.read(LC_vtp)
-    LS_modeler  = modeler.read(LS_vtp)
-    # get model polydata
-    AO_pd       = AO_modeler.get_polydata()
-    print(AO_pd)
-# D:======================================================= MESHING
-# see https://github.com/SimVascular/SimVascular-Tests/blob/master/new-api-tests/meshing/tetgen-options.py
-def do_mesh(file_name):
-    mesher = sv.meshing.create_mesher(sv.meshing.Kernel.TETGEN)
-    options = sv.meshing.TetGenOptions(global_edge_size=0.05, surface_mesh_flag=True, volume_mesh_flag=True) 
-    mesher.load_model(file_name)
-
-    ## Set the face IDs for model walls.
-    wall_face_ids = [1]
-    mesher.set_walls(wall_face_ids)
-
-    ## Compute model boundary faces.
-    mesher.compute_model_boundary_faces(angle=50.0)
-    face_ids = mesher.get_model_face_ids()
-    print("Mesh face ids: " + str(face_ids))
-
-    ## Set boundary layer meshing options
-    print("Set boundary layer meshing options ... ")
-    mesher.set_boundary_layer_options(number_of_layers=2, edge_size_fraction=0.5, layer_decreasing_ratio=0.8, constant_thickness=False)
-    options.no_bisect = False
-
-    ## Print options.
-    #print("Options values: ")
-    #[ print("  {0:s}:{1:s}".format(key,str(value))) for (key, value) in sorted(options.get_values().items()) ]
-
-    ## Generate the mesh. 
-    mesher.generate_mesh(options)
-    
-    ## Get the mesh as a vtkUnstructuredGrid. 
-    mesh = mesher.get_mesh()
-    
-    print("Mesh:")
-    print("  Number of nodes: {0:d}".format(mesh.GetNumberOfPoints()))
-    print("  Number of elements: {0:d}".format(mesh.GetNumberOfCells()))
-
-    ## Write the mesh.
-    mesher.write_mesh(file_name = cvsimout + 'mesh-complete.mesh.vtu')
-
-    ## Export the mesh-complete files
-    for i in range(4):#complete exterior and 3 faces
-        if i==0:
-            temp_name = cvsimout + 'mesh-complete.exterior.vtp'
-            surf_mesh = mesher.get_surface()
-        else:
-            temp_name = cvsimout + str(i) + ".vtp"
-            surf_mesh = mesher.get_face_polydata(i)
-        writer = vtk.vtkXMLPolyDataWriter()
-        writer.SetFileName(temp_name)
-        writer.SetInputData(surf_mesh)
-        writer.Update()
-        writer.Write()
-        #Main wall
-        if i==1:
-            temp_name2 = cvsimout + 'walls_combined.vtp'
-            copyfile(temp_name,temp_name2)
-
-#========================================================================================= GRAPHICS
-def draw_solid(polydata):
-    win_width = 500
-    win_height = 500
-    renderer, renderer_window = gr.init_graphics(win_width, win_height)
-    gr.add_geometry(renderer, polydata, color=[0.0, 1.0, 0.0], wire=False, edges=True)
-    gr.display(renderer_window)
-
-def draw_segmentations(contours):
-    num_segs = len(contours)
-
-    ## Create renderer and graphics window.
-    win_width = 500
-    win_height = 500
-    renderer, renderer_window = gr.init_graphics(win_width, win_height)
-    ## Show contours.
-    for sid in range(num_segs):
-        seg = contours[sid]
-        control_points = seg.get_control_points()
-        gr.create_segmentation_geometry(renderer, seg)
-
-    # Display window.
-    gr.display(renderer_window)
-
-# Z:======================================================= MAIN
-def main():
-    # read and return contours
-    contours                            = read_contours(cvsim,input_dir,seg_name)
-    num_contours                        = len(contours)
-    if 0.5*length_id + control_point_id > num_contours:
-        print("ERROR: changes propagate beyond the last distal segment")
-    if control_point_id - 0.5*length_id < 0:
-        print("ERROR: changes propagate beyond the first segment of the vessel")
-        
-    # compute scale factors
-    scale_factors                       = cpmanip.scale_factor_test(num_contours,length_id,scale_id,long_asym_id,control_point_id,steepness,x50)
-    print("Scale factors:")
-    print(scale_factors)
-    # Contour manipulation
-    contours_manip                      = []
-    for i in range(len(contours)-1):
-        conti                           = contours[i]
-        conti                           = manipulate_contour(conti,scale_factors[i])
-        contours_manip.append(conti)
-    print("Manipulated contour:")
-    print(contours_manip)
-    
-    # loft, remesh, and save the model as vtp files
-    loft_capped                         = loft(contours_manip)
-    remesh(loft_capped)
-    # combine with arch brancges
-    combiner()
-    # mesh
-    do_mesh(cvsimout + "capped-loft-surface.vtp")
-    
-    # Draw segmentation
-    draw_segmentations(contours_manip)
-    
-    # Take a paraview screenshot
-    # cvsimout = /home/agh/github/outofsource/cvsimout/
-    filename = [cvsimout + 'mesh-complete.exterior.vtp']
-    # vtpscreenshot(vtpname,[300,200],[0.32, 0.34, 0.43],[300,300],cvsimout + "screen.png")
-
-    
-main()
-'''
