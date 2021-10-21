@@ -22,9 +22,11 @@
 # NOTE: add Path from pathlib, add additional notes heare if needed
 from pathlib import Path
 # define the local home and repository directories plus out of source directory for outputs not needed to be uploaded to the source repository 
-home                    = str(Path.home())
+# home                    = str(Path.home())
+'''
 cvsim                   = home + "/github/cvsim/"
 cvsimout                = home + "/github/outofsource/cvsimout/"
+'''
 # B2: modules
 # B2a: import sv module that allows access to simvascular modeling pipeline which is available in gui 
 import sv
@@ -61,11 +63,11 @@ except:
 
 # import paraview as pv
 # other local modules
-cpmani_dir                  = cvsim + "modules/"
+cpmanip_dir                  = cvsim + "modules/"
 print("control_point_manipulation:")
-print(cpmani_dir)
+print(cpmanip_dir)
 try:
-    sys.path.insert(1, cpmani_dir)
+    sys.path.insert(1, cpmanip_dir)
 except:
     print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
 import control_point_manipulation as cpmanip
@@ -78,6 +80,7 @@ import control_point_manipulation as cpmanip
 #                       name refers to file name (e.g. "git_installation.txt")
 #                       fulldir refers to full directory (e.g. "home/agh/github/cvsim/documentations/ubuntu/git_installation.txt)
 #---------------------------------------------------------------------------------------------------------------------------------
+'''
 input_dir                    = "data/input/"
 output_dir                   = cvsimout
 
@@ -105,6 +108,7 @@ control_point_id            = 30
 steepness                   = 1.5
 # x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
 x50                         = 0.7
+'''
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
     # .ctgr includes center and distance control points, followed by outer control points
@@ -281,7 +285,13 @@ def draw_segmentations(contours):
     gr.display(renderer_window)
 
 # Z:======================================================= MAIN
-def manipulator(cvsim,input_dir,cvsimout,seg_name,length_id,scale_id,long_asym_id,control_point_id,steepness,x50):
+def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par):
+    length_id                           = vessel_par[0]
+    scale_id                            = vessel_par[1]
+    long_asym_id                        = vessel_par[2]
+    control_point_id                    = vessel_par[3]
+    steepness                           = vessel_par[4]
+    x50                                 = vessel_par[5]
     # read and return contours
     contours                            = read_contours(cvsim,input_dir,seg_name)
     num_contours                        = len(contours)
