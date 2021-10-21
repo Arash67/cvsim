@@ -195,7 +195,7 @@ def remesh(loft_capped,cvsimout):
 # see https://github.com/SimVascular/SimVascular-Tests/blob/master/new-api-tests/meshing/tetgen-options.py
 def do_mesh(cvsimout,file_name):
     mesher = sv.meshing.create_mesher(sv.meshing.Kernel.TETGEN)
-    options = sv.meshing.TetGenOptions(global_edge_size=0.05, surface_mesh_flag=True, volume_mesh_flag=True) 
+    options = sv.meshing.TetGenOptions(global_edge_size=0.01, surface_mesh_flag=True, volume_mesh_flag=True) 
     mesher.load_model(cvsimout + file_name)
 
     ## Set the face IDs for model walls.
