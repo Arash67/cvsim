@@ -91,7 +91,7 @@ print(script_fulldir)
 seg_name                    = "control_rabbit_32181_S01AO_splinepoly2.ctgr"
 seg_fulldir                 = cvsim + input_dir + seg_name
 
-# B4: manipulation parameters
+# B4: manipulation parameters for single aortic narrowing
 # number of contours to be manipulated in the region, indicator of the length of the affected region
 length_id                   = 10
 # diameter reduction at most stenotic segment
@@ -105,9 +105,9 @@ control_point_id            = 30
 steepness                   = 1.5
 # x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
 x50                         = 0.7
+AO_manip_par                =[length_id,scale_id,long_asym_id,control_point_id,steepness,x50]
 
-
-vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,length_id,scale_id,long_asym_id,control_point_id,steepness,x50)
+vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,AO_manip_par)
 
 '''
 # C:======================================================= SEGMENTATION
