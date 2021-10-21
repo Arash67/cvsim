@@ -85,11 +85,13 @@ AO_manip_par                = [length_id,scale_id,long_asym_id,control_point_id,
 
 # mesh parameters
 global_max_edge_size        = 0.05
-number_of_layers            =2
-edge_size_fraction          =0.5
-layer_decreasing_ratio      =0.8
-mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio]
+number_of_layers            = 2
+edge_size_fraction          = 0.5
+layer_decreasing_ratio      = 0.8
+angle                       = 60
+boundarylayer_meshing       = 0
+mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio,angle,boundarylayer_meshing]
 
 # geometry manipulation
-vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,AO_manip_par,)
+vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,AO_manip_par,mesh_par)
 
