@@ -61,14 +61,14 @@ except:
 
 # import paraview as pv
 # other local modules
-cpmani_dir                  = cvsim + "modules/"
+vmanip_dir                   = cvsim + "modules/"
 print("control_point_manipulation:")
-print(cpmani_dir)
+print(vmanip_dir)
 try:
-    sys.path.insert(1, cpmani_dir)
+    sys.path.insert(1, vmanip_dir)
 except:
     print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
-import control_point_manipulation as cpmanip
+import vessel_manipulator as vmanip
 
 # B3: input file directories
 # NOTE: all paths are defined relative to the *.py script location. so its important to keep the same foldering format used here
@@ -105,6 +105,11 @@ control_point_id            = 30
 steepness                   = 1.5
 # x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
 x50                         = 0.7
+
+
+vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,length_id,scale_id,long_asym_id,control_point_id,steepness,x50)
+
+'''
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
     # .ctgr includes center and distance control points, followed by outer control points
@@ -199,7 +204,19 @@ def remesh(loft_capped):
     print("  Number of points: " + str(polydata.GetNumberOfPoints()))
     print("  Number of cells: " + str(polydata.GetNumberOfCells()))
     return cvsimout + '.vtp',polydata
-
+def combiner(AO_vtp,RS_vtp,RC_vtp,LC_vtp,LS_vtp):
+    # define modeling kernel
+    kernel      = sv.modeling.Kernel.POLYDATA 
+    modeler     = sv.modeling.Modeler(kernel)
+    # read the models in 
+    AO_modeler  = modeler.read(AO_vtp)
+    RS_modeler  = modeler.read(RS_vtp)
+    RC_modeler  = modeler.read(RC_vtp)
+    LC_modeler  = modeler.read(LC_vtp)
+    LS_modeler  = modeler.read(LS_vtp)
+    # get model polydata
+    AO_pd       = AO_modeler.get_polydata()
+    print(AO_pd)
 # D:======================================================= MESHING
 # see https://github.com/SimVascular/SimVascular-Tests/blob/master/new-api-tests/meshing/tetgen-options.py
 def do_mesh(file_name):
@@ -303,10 +320,11 @@ def main():
     print("Manipulated contour:")
     print(contours_manip)
     
-    # loft 
+    # loft, remesh, and save the model as vtp files
     loft_capped                         = loft(contours_manip)
     remesh(loft_capped)
-    
+    # combine with arch brancges
+    combiner()
     # mesh
     do_mesh(cvsimout + "capped-loft-surface.vtp")
     
@@ -320,3 +338,4 @@ def main():
 
     
 main()
+'''
