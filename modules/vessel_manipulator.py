@@ -22,11 +22,9 @@
 # NOTE: add Path from pathlib, add additional notes heare if needed
 from pathlib import Path
 # define the local home and repository directories plus out of source directory for outputs not needed to be uploaded to the source repository 
-# home                    = str(Path.home())
-'''
+home                    = str(Path.home())
 cvsim                   = home + "/github/cvsim/"
-cvsimout                = home + "/github/outofsource/cvsimout/"
-'''
+# cvsimout                = home + "/github/outofsource/cvsimout/"
 # B2: modules
 # B2a: import sv module that allows access to simvascular modeling pipeline which is available in gui 
 import sv
@@ -40,26 +38,15 @@ import vtk
 import numpy as np
 # B2f: import shutil, add additional notes here if needed
 from shutil import copyfile
-# B2g: import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
-# NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
-graphics_dir                = cvsim + "modules/graphics/"
-print("graphics module directory:")
-print(graphics_dir)
-try:
-    sys.path.insert(1, graphics_dir)
-except:
-    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
-# B2h: import graphics module
-import graphics as gr
 # B2i: import paraview module
-# NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
+# NOTE: paraview is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
 paraview_dir                =  "/usr/lib/python3/dist-packages/paraview"
 print("paraview package directory:")
 print(paraview_dir)
 try:
     sys.path.insert(1, paraview_dir)
 except:
-    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+    print("Can't find the modules/paraview package.")
 
 # import paraview as pv
 # other local modules
@@ -69,7 +56,7 @@ print(cpmanip_dir)
 try:
     sys.path.insert(1, cpmanip_dir)
 except:
-    print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+    print("Can't find the modules/control_point_manipulatin package")
 import control_point_manipulation as cpmanip
 
 # B3: input file directories
@@ -260,15 +247,37 @@ def do_mesh(cvsimout,file_name):
             temp_name2 = cvsimout + 'walls_combined.vtp'
             copyfile(temp_name,temp_name2)
 
-#========================================================================================= GRAPHICS
-def draw_solid(polydata):
+#========================================================================================= GRAPHICS  
+def draw_solid(cvsim,polydata):
+    # import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
+    # NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
+    graphics_dir                = cvsim + "modules/graphics/"
+    print("graphics module directory:")
+    print(graphics_dir)
+    try:
+        sys.path.insert(1, graphics_dir)
+    except:
+        print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+    # B2h: import graphics module
+    import graphics as gr
     win_width = 500
     win_height = 500
     renderer, renderer_window = gr.init_graphics(win_width, win_height)
     gr.add_geometry(renderer, polydata, color=[0.0, 1.0, 0.0], wire=False, edges=True)
     gr.display(renderer_window)
 
-def draw_segmentations(contours):
+def draw_segmentations(cvsim,contours):
+    # import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
+    # NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
+    graphics_dir                = cvsim + "modules/graphics/"
+    print("graphics module directory:")
+    print(graphics_dir)
+    try:
+        sys.path.insert(1, graphics_dir)
+    except:
+        print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+    # B2h: import graphics module
+    import graphics as gr
     num_segs = len(contours)
 
     ## Create renderer and graphics window.
@@ -320,7 +329,7 @@ def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par):
     do_mesh(cvsimout,"capped-loft-surface.vtp")
     
     # Draw segmentation
-    # draw_segmentations(contours_manip)
+    # draw_segmentations(cvsim,contours_manip)
     
     # Take a paraview screenshot
     # cvsimout = /home/agh/github/outofsource/cvsimout/
