@@ -294,13 +294,19 @@ def draw_segmentations(cvsim,contours):
     gr.display(renderer_window)
 
 # Z:======================================================= MAIN
-def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par):
+def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par):
     length_id                           = vessel_par[0]
     scale_id                            = vessel_par[1]
     long_asym_id                        = vessel_par[2]
     control_point_id                    = vessel_par[3]
     steepness                           = vessel_par[4]
     x50                                 = vessel_par[5]
+    
+    global_max_edge_size        = mesh_par[0]
+    number_of_layers            = mesh_par[1]
+    edge_size_fraction          = mesh_par[2]
+    layer_decreasing_ratio      = mesh_par[3]
+    
     # read and return contours
     contours                            = read_contours(cvsim,input_dir,seg_name)
     num_contours                        = len(contours)
