@@ -169,7 +169,7 @@ def loft(vessel_id,contours,cvsimout):
     loft_capped = sv.vmtk.cap(surface=loft_surf, use_center=False)
 
     # We dont need to save the ugly_file, it will be remeshed
-    ugly_file = cvsimout + str(vessel_id,"_capped-loft-surface.vtp")
+    ugly_file = cvsimout + vessel_id + "_capped-loft-surface.vtp"
     writer = vtk.vtkXMLPolyDataWriter()
     writer.SetFileName(ugly_file)
     writer.SetInputData(loft_capped)
