@@ -93,7 +93,7 @@ boundarylayer_meshing       = 0
 mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio,angle,boundarylayer_meshing]
 
 # geometry manipulation
-casei_id                    = 1
+case_id                    = 1
 Vessel_id                   = str("Case_",case_id,"_RC")
 vmanip.manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,AO_manip_par,mesh_par)
 
