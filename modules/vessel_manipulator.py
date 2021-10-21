@@ -236,7 +236,7 @@ def do_mesh(vessel_id,cvsimout,file_name,mesh_par):
             temp_name = cvsimout + vessel_id + "_mesh_complete_exterior.vtp"
             surf_mesh = mesher.get_surface()
         else:
-            temp_name = cvsimout + str(vessel_id,"_mesh_face_",i,".vtp")
+            temp_name = cvsimout + vessel_id + "_mesh_face_" + str(i) + ".vtp"
             surf_mesh = mesher.get_face_polydata(i)
         writer = vtk.vtkXMLPolyDataWriter()
         writer.SetFileName(temp_name)
