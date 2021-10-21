@@ -193,9 +193,9 @@ def remesh(loft_capped,cvsimout):
   
 # D:======================================================= MESHING
 # see https://github.com/SimVascular/SimVascular-Tests/blob/master/new-api-tests/meshing/tetgen-options.py
-def do_mesh(cvsimout,file_name):
+def do_mesh(cvsimout,file_name,mesh_par):
     mesher = sv.meshing.create_mesher(sv.meshing.Kernel.TETGEN)
-    options = sv.meshing.TetGenOptions(global_edge_size=0.05, surface_mesh_flag=True, volume_mesh_flag=True) 
+    options = sv.meshing.TetGenOptions(global_edge_size=mesh_par[0], surface_mesh_flag=True, volume_mesh_flag=True) 
     mesher.load_model(cvsimout + file_name)
 
     ## Set the face IDs for model walls.
@@ -203,13 +203,13 @@ def do_mesh(cvsimout,file_name):
     mesher.set_walls(wall_face_ids)
 
     ## Compute model boundary faces.
-    mesher.compute_model_boundary_faces(angle=50.0)
+    mesher.compute_model_boundary_faces(angle=mesh_par[4])
     face_ids = mesher.get_model_face_ids()
     print("Mesh face ids: " + str(face_ids))
 
     ## Set boundary layer meshing options
     print("Set boundary layer meshing options ... ")
-    mesher.set_boundary_layer_options(number_of_layers=2, edge_size_fraction=0.5, layer_decreasing_ratio=0.8, constant_thickness=False)
+    mesher.set_boundary_layer_options(number_of_layers=mesh_par[1], edge_size_fraction=mesh_par[2], layer_decreasing_ratio=mesh_par[3], constant_thickness=False)
     options.no_bisect = False
 
     ## Print options.
@@ -302,10 +302,6 @@ def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par):
     steepness                           = vessel_par[4]
     x50                                 = vessel_par[5]
     
-    global_max_edge_size        = mesh_par[0]
-    number_of_layers            = mesh_par[1]
-    edge_size_fraction          = mesh_par[2]
-    layer_decreasing_ratio      = mesh_par[3]
     
     # read and return contours
     contours                            = read_contours(cvsim,input_dir,seg_name)
@@ -332,7 +328,7 @@ def manipulator(cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par):
     loft_capped                         = loft(contours_manip,cvsimout)
     remesh(loft_capped,cvsimout)
     # mesh
-    do_mesh(cvsimout,"capped-loft-surface.vtp")
+    do_mesh(cvsimout,"capped-loft-surface.vtp",mesh_par)
     
     # Draw segmentation
     # draw_segmentations(cvsim,contours_manip)
