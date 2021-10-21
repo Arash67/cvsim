@@ -109,6 +109,7 @@ AO_manip_par                =[length_id,scale_id,long_asym_id,control_point_id,s
 
 vmanip.manipulator(cvsim,input_dir,cvsimout,seg_name,AO_manip_par)
 
+
 '''
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
