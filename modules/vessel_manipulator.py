@@ -208,9 +208,10 @@ def do_mesh(cvsimout,file_name,mesh_par):
     print("Mesh face ids: " + str(face_ids))
 
     ## Set boundary layer meshing options
-    print("Set boundary layer meshing options ... ")
-    mesher.set_boundary_layer_options(number_of_layers=mesh_par[1], edge_size_fraction=mesh_par[2], layer_decreasing_ratio=mesh_par[3], constant_thickness=False)
-    options.no_bisect = False
+    if mesh_par[5] == 1
+        print("Set boundary layer meshing options ... ")
+        mesher.set_boundary_layer_options(number_of_layers=mesh_par[1], edge_size_fraction=mesh_par[2], layer_decreasing_ratio=mesh_par[3], constant_thickness=False)
+        options.no_bisect = False
 
     ## Print options.
     #print("Options values: ")
