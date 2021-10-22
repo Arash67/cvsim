@@ -70,7 +70,7 @@ seg_names                   = ["control_rabbit_32181_S01AO_splinepoly2.ctgr"
                               ,"control_rabbit_32181_S02RS_splinepoly.ctgr"
                               ,"control_rabbit_32181_S03RC_splinepoly.ctgr"
                               ,"control_rabbit_32181_S04LC_splinepoly.ctgr"
-                              ,"control_rabbit_32181_S04LS_splinepoly.ctgr"]
+                              ,"control_rabbit_32181_S05LS_splinepoly.ctgr"]
 
 branch_name_list            = ["AO","RS","RC","LC","LS"]
 # seg_fulldir                 = cvsim + input_dir + seg_name
@@ -111,7 +111,7 @@ for i in range(len(seg_names)):
     mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio,angle,boundarylayer_meshing]
   vessel_id                   = "Case_" + str(case_id) + "_" + branch_name_list[i]
   # call the manipulator
-  vmanip.manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,AO_manip_par,mesh_par)
+  vmanip.manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_names[i],AO_manip_par,mesh_par)
 
 # union the aorta and branches
 
