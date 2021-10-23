@@ -67,35 +67,7 @@ import control_point_manipulation as cpmanip
 #                       name refers to file name (e.g. "git_installation.txt")
 #                       fulldir refers to full directory (e.g. "home/agh/github/cvsim/documentations/ubuntu/git_installation.txt)
 #---------------------------------------------------------------------------------------------------------------------------------
-'''
-input_dir                    = "data/input/"
-output_dir                   = cvsimout
 
-# B3a: *.py script fulldir
-script_name                 = "control_rabbit_generalized.py"
-script_dir                  = "geometry/"
-script_fulldir              = cvsim + script_dir + script_name
-print("script full directory:")
-print(script_fulldir)
-# B3b: *.ctgr fulldir
-seg_name                    = "control_rabbit_32181_S01AO_splinepoly2.ctgr"
-seg_fulldir                 = cvsim + input_dir + seg_name
-
-# B4: manipulation parameters
-# number of contours to be manipulated in the region, indicator of the length of the affected region
-length_id                   = 10
-# diameter reduction at most stenotic segment
-perc_diameter_reduction     = 70
-scale_id                    = perc_diameter_reduction/100
-# longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
-long_asym_id                = -0.2
-# narrowing location identified by control point id
-control_point_id            = 30
-# steepness
-steepness                   = 1.5
-# x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
-x50                         = 0.7
-'''
 # C:======================================================= SEGMENTATION
 def set_spline(control_points):
     # .ctgr includes center and distance control points, followed by outer control points
@@ -326,8 +298,8 @@ def manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par)
     print(contours_manip)
     print(contours_manip[0])
     # save manipulated segmentations as *ctgr
-    seg = sv.segmentation.Contour()
-    seg.set_contour_points(contours_manip[0])
+    seg = sv.segmentation.SplinePolygon(contours_manip)
+    # seg.set_contour_points(contours_manip[0])
     seg.write(cvsimout + vessel_id + "_segmentation.ctgr")
     # loft, remesh, and save the model as vtp files
     loft_capped                         = loft(vessel_id,contours_manip,cvsimout)
