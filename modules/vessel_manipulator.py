@@ -133,7 +133,7 @@ def save_ctgr_form_contours(contours):
             x               =   point_i[0]
             y               =   point_i[1]
             z               =   point_i[2]
-            print("  current point x coordinate: {0:d}".format(x))
+            print("  [x,y,z]: [{},{},{}]".format(x,y,z))
 
             
 # D:======================================================= MODELING
