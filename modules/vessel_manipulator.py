@@ -114,7 +114,13 @@ def manipulate_contour(contour,scale_factor):
     new_outer = cpmanip.vary_points_test(center,outer,scale_factor=scale_factor)
     contour = set_spline(new_outer)
     return contour
-
+def save_ctgr_form_contours(contours):
+    num_contours    =   len(contours)
+    for cid in range(num_contours):
+        contour_i   =   contours[i]
+        center_i    =   contour_i.get_center()
+        print("Current center:")
+        print(center_i)
 # D:======================================================= MODELING
 def get_profile_contour(contours, cid, npts):
     cont = contours[cid]
@@ -298,9 +304,12 @@ def manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par)
     print(contours_manip)
     print(contours_manip[0])
     # save manipulated segmentations as *ctgr
-    seg = sv.segmentation.SplinePolygon(contours_manip)
+    save_ctgr_form_contours(contours_manip)
+    
+    # seg = sv.segmentation.SplinePolygon(contours_manip)
     # seg.set_contour_points(contours_manip[0])
-    seg.write(cvsimout + vessel_id + "_segmentation.ctgr")
+    # seg.write(cvsimout + vessel_id + "_segmentation.ctgr")
+    
     # loft, remesh, and save the model as vtp files
     loft_capped                         = loft(vessel_id,contours_manip,cvsimout)
     remesh(loft_capped,cvsimout)
