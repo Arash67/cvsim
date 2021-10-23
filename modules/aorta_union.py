@@ -38,6 +38,22 @@ import sys
 # B2d: import vtk, add additional notes heare if needed
 import vtk
 
+# import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
+# NOTE: graphics is not a built in module so you need to add its path to the sys.path list where all the module paths are stores 
+graphics_dir                = cvsim + "modules/graphics/"
+print("graphics module directory:")
+print(graphics_dir)
+try:
+  sys.path.insert(1, graphics_dir)
+except:
+  print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
+# B2h: import graphics module
+import graphics as gr
+## Create renderer and graphics window.
+win_width = 500
+win_height = 500
+renderer, renderer_window = gr.init_graphics(win_width, win_height)
+
 # C:======================================================= INPUTS
 # list of models for aorta and branches (*.vtp) 
 vtp_name_list         = ["Case_1_AO_capped_loft_surface.vtp"
@@ -54,36 +70,33 @@ AO_reader = vtk.vtkXMLPolyDataReader()
 AO_reader.SetFileName(AO_file_name) 
 AO_reader.Update()
 AO_read_polydata = AO_reader.GetOutput()
-print(AO_read_polydata)
 AO_model = model
-## Compute boundary faces.
-# face_ids = AO_model.compute_boundary_faces(angle=60.0)
-# print("Model face IDs: " + str(face_ids))
-# AO_loft_capped = modeler.read(cvsimout + vtp_name_list[0])
-# print(AO_loft_capped)
+AO_model.set_surface(surface=AO_read_polydata)
+
+## Add model polydata.
+gr.add_geometry(renderer, AO_read_polydata, color=[1.0, 0.0, 0.0], wire=True, edges=False)
+# Display window.
+# gr.display(renderer_window)
+
 
 RC_file_name = cvsimout + vtp_name_list[1]
 RC_reader = vtk.vtkXMLPolyDataReader()
 RC_reader.SetFileName(RC_file_name) 
 RC_reader.Update()
 RC_read_polydata = RC_reader.GetOutput()
-# print(RC_read_polydata)
-# RC_model = model
-# RC_loft_capped = modeler.read(cvsimout + vtp_name_list[1])
-# print(RC_loft_capped)
+RC_model = model
+RC_model.set_surface(surface=RC_read_polydata)
 
-AO_model.set_surface(surface=AO_read_polydata)
-AO_model.set_surface(surface=RC_read_polydata)
-# AO_model.compute_boundary_faces(angle=50.0)
+## Add model polydata.
+gr.add_geometry(renderer, RC_read_polydata, color=[1.0, 0.0, 0.0], wire=True, edges=False)
+# Display window.
+# gr.display(renderer_window)
 
-# RC_model.set_surface(surface=RC_read_polydata)
-# RC_model.compute_boundary_faces(angle=60.0)
+union_model = modeler.intersect(AO_model,RC_model)
 
-union_model = AO_model
-# union_model = modeler.union(model1=AO_model,model2=RC_model)
-print(union_model)
+
+'''
 union_model_pd = union_model.get_polydata()
-
 
 
 # import graphics module which defines functions used to visualize SV objects using VTK; the module is taken from simvascular repository on Github under: SimVascular>simvascular-tests>new-api-testes.graphics
@@ -110,8 +123,4 @@ gr.add_geometry(renderer, union_model_pd, color=[1.0, 0.0, 0.0], wire=True, edge
 # Display window.
 gr.display(renderer_window)
 
-
-
-
-
-
+'''

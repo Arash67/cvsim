@@ -142,6 +142,7 @@ def manipulate_contour(contour,scale_factor):
     new_outer = cpmanip.vary_points_test(center,outer,scale_factor=scale_factor)
     contour = set_spline(new_outer)
     return contour
+def save_ctgr():
 
 # D:======================================================= MODELING
 def get_profile_contour(contours, cid, npts):
@@ -324,8 +325,9 @@ def manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par)
         contours_manip.append(conti)
     #print("Manipulated contour:")
     #print(contours_manip)
-    # write *.ctgr file
-    contours_manip.write(cvsimout + vessel_id + "segmentation.ctgr")
+    
+    # save manipulated segmentations as *ctgr
+    contours_manip.write(cvsimout + vessel_id + "_segmentation.ctgr")
     # loft, remesh, and save the model as vtp files
     loft_capped                         = loft(vessel_id,contours_manip,cvsimout)
     remesh(loft_capped,cvsimout)
