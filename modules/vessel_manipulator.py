@@ -142,7 +142,6 @@ def manipulate_contour(contour,scale_factor):
     new_outer = cpmanip.vary_points_test(center,outer,scale_factor=scale_factor)
     contour = set_spline(new_outer)
     return contour
-def save_ctgr():
 
 # D:======================================================= MODELING
 def get_profile_contour(contours, cid, npts):
