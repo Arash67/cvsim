@@ -327,7 +327,9 @@ def manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_name,vessel_par,mesh_par)
     #print(contours_manip)
     
     # save manipulated segmentations as *ctgr
-    contours_manip.write(cvsimout + vessel_id + "_segmentation.ctgr")
+    seg = sv.segmentation.Contour()
+    seg.set_contour_points(contours_manip)
+    seg.write(cvsimout + vessel_id + "_segmentation.ctgr")
     # loft, remesh, and save the model as vtp files
     loft_capped                         = loft(vessel_id,contours_manip,cvsimout)
     remesh(loft_capped,cvsimout)
