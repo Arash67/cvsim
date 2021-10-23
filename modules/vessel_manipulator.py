@@ -117,7 +117,7 @@ def manipulate_contour(contour,scale_factor):
 def save_ctgr_form_contours(contours):
     num_contours    =   len(contours)
     for cid in range(num_contours):
-        contour_i   =   contours[i]
+        contour_i   =   contours[cid]
         center_i    =   contour_i.get_center()
         print("Current center:")
         print(center_i)
