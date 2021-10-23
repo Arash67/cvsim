@@ -119,8 +119,9 @@ def save_ctgr_form_contours(contours):
     for cid in range(num_contours):
         contour_i   =   contours[cid]
         center_i    =   contour_i.get_center()
+        points_i    =   contour_i.get_points()
         print("Current center:")
-        print(center_i)
+        print(points_i)
 # D:======================================================= MODELING
 def get_profile_contour(contours, cid, npts):
     cont = contours[cid]
