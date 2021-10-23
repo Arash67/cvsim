@@ -115,13 +115,27 @@ def manipulate_contour(contour,scale_factor):
     contour = set_spline(new_outer)
     return contour
 def save_ctgr_form_contours(contours):
-    num_contours    =   len(contours)
+    num_contours            =   len(contours)
     for cid in range(num_contours):
-        contour_i   =   contours[cid]
-        center_i    =   contour_i.get_center()
-        points_i    =   contour_i.get_points()
+        contour_i           =   contours[cid]
+        center_i            =   contour_i.get_center()
+        xc                  =   center_i[0]
+        yc                  =   center_i[1]
+        zc                  =   center_i[2]
+        points_i            =   contour_i.get_points()
         print("Current center:")
+        print(center_i)
+        print("Current points:")
         print(points_i)
+        num_points          =   len(points_i)
+        for pid in range(num_points):
+            point_i         =   points_i[pid]
+            x               =   point_i[0]
+            y               =   point_i[1]
+            z               =   point_i[2]
+            print("  current point x coordinate: {0:d}".format(x))
+
+            
 # D:======================================================= MODELING
 def get_profile_contour(contours, cid, npts):
     cont = contours[cid]
