@@ -109,9 +109,9 @@ for i in range(len(seg_names)):
   else:                         # leave the AO branches unchanges 
     AO_manip_par                = [3,1.0,0,3,1.5,0.7]
     mesh_par                    = [global_max_edge_size,number_of_layers,edge_size_fraction,layer_decreasing_ratio,angle,boundarylayer_meshing]
-  vessel_id                   = "Case_" + str(case_id) + "_" + branch_name_list[i]
+  vessel_id                     = "Case_" + str(case_id) + "_" + branch_name_list[i]
   # call the manipulator
-  vmanip.manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_names[i],AO_manip_par,mesh_par)
+  mdl_names                     = vmanip.manipulator(vessel_id,cvsim,input_dir,cvsimout,seg_names[i],AO_manip_par,mesh_par)
 
 # union the aorta and branches
 
