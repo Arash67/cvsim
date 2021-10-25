@@ -22,6 +22,7 @@ import os
 import sys
 import xml.etree.ElementTree as et
 import vtk
+import math
 
 # C:======================================================= CLASSES
 
