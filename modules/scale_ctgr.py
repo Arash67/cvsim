@@ -82,7 +82,6 @@ def scale_factor_test(number_of_contours,scale_par):
     location_id = scale_par[3]
     steepness = scale_par[4]
     x50 = scale_par[5]
-    
 	scale_factor                        = []
 	for i in range(number_of_contours): scale_factor.append(float(1))
 	if (length_id % 2 !=0): 
