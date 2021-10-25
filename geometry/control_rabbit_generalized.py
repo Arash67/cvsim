@@ -115,4 +115,3 @@ for i in range(len(seg_names)):
 
 # union the aorta and branches
 
-
