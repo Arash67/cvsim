@@ -11,7 +11,7 @@ ctgr_file_name  = input_dir + "control_rabbit_32181_S01AO.ctgr"
 vtp_file_name   = output_dir + "Case_1_AO_mesh_complete_exterior.vtp"
 
 scale_factor = 0.7
-scale_ids    = [5,6]
+contour_ids    = [5,6]
 # other local modules
 vmanip_dir                   = cvsim + "modules/"
 print("control_point_manipulation:")
@@ -22,4 +22,4 @@ except:
     print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
 import scale_ctgr as sc
 
-sc.main(ctgr_filename,vtp_file_name,scale_factor,scale_ids)
+sc.main(vtp_file_name,ctgr_filename,scale_factor,contour_ids)
