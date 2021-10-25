@@ -114,19 +114,37 @@ def manipulate_contour(contour,scale_factor):
     new_outer = cpmanip.vary_points_test(center,outer,scale_factor=scale_factor)
     contour = set_spline(new_outer)
     return contour
-def save_ctgr_form_contours(contours):
+
+
+class ContourGroup(object):
+    ''' The ContourGroup class is used to represent a SimVascular contour group.
+    '''
+    def __init__(self, path_name):
+        self.id = path_name
+        self.contours = []
+
+class Contour(object):
+    ''' The Contour class is used to represent a SimVascular contour.
+    '''
+    def __init__(self, cid):
+        self.id = cid
+        self.coordinates = []
+
+
+def save_ctgr_form_contours(cvsimout,contours):
     num_contours            =   len(contours)
+    contour_group           =   ContourGroup(cvsimout + )
     for cid in range(num_contours):
+        contour             =   Contour(cid)
         contour_i           =   contours[cid]
         center_i            =   contour_i.get_center()
         xc                  =   center_i[0]
         yc                  =   center_i[1]
         zc                  =   center_i[2]
         points_i            =   contour_i.get_points()
-        print("Current center:")
-        print(center_i)
-        print("Current points:")
-        print(points_i)
+        print("  current center: [{},{},{}]".format(xc,yc,zc))
+        #print("Current points:")
+        #print(points_i)
         num_points          =   len(points_i)
         for pid in range(num_points):
             point_i         =   points_i[pid]
