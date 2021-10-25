@@ -153,9 +153,7 @@ def read_ctgr_file(file_name, scale_par, contour_ids):
             cid = contour_t.attrib["id"]
             contour = Contour(cid)
             scaled_contour = Contour(cid)
-            print("CID=")
-            print(cid)
-            scale = scale_factors[cid]
+            scale = scale_factors[int(cid)]
 
             ## Iterate over control points. 
             #
