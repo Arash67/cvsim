@@ -23,6 +23,7 @@ import sys
 import xml.etree.ElementTree as et
 import vtk
 import math
+import numpy as np
 
 # C:======================================================= CLASSES
 
