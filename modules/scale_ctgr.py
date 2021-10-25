@@ -190,7 +190,7 @@ def main(vtp_file_name,ctgr_file_name,contour_scale, contour_ids):
     renderer.AddActor(surface_geom)
 
     # Read the contours .ctgr file.
-    contour_groups, scaled_contour_groups = read_ctgr_file(file_name, contour_scale, contour_ids)
+    contour_groups, scaled_contour_groups = read_ctgr_file(ctgr_file_name, contour_scale, contour_ids)
 
     # Create contour geometry.
     for contour_group in contour_groups:
