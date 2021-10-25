@@ -69,6 +69,8 @@ def read_ctgr_file(file_name, contour_scale, contour_ids):
             cid = contour_t.attrib["id"]
             contour = Contour(cid)
             scaled_contour = Contour(cid)
+            print(cid)
+            print(contour_ids)
             print(cid != contour_ids)
             if (len(contour_ids) != 0) and (cid != contour_ids):
                 scale = 1.0 
