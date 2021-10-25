@@ -204,4 +204,4 @@ def main(vtp_file_name,ctgr_file_name,contour_scale, contour_ids):
     interactor.SetRenderWindow(renderer_win)
     interactor.Start()
 
-main(vtp_file_name,ctgr_file_name,contour_scale, contour_ids)
+# main(vtp_file_name,ctgr_file_name,contour_scale, contour_ids)
