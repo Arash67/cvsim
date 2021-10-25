@@ -123,7 +123,7 @@ def scale_factor_test(number_of_contours,scale_par):
     return scale_factor
 
 def read_ctgr_file(file_name, scale_par, contour_ids):
-    
+    print(scale_par)
     # Remove 'format' tag from xml file.
     f = open(file_name, "r")
     lines = f.readlines()
@@ -149,12 +149,13 @@ def read_ctgr_file(file_name, scale_par, contour_ids):
         num_contours = len(contour_group_t)
         print("number of contours: {}".format(num_contours))
         scale_factors                       = scale_factor_test(num_contours,scale_par)
+        print("scale factor")
+        print(scale_factors)
         for contour_t in contour_group_t.iter('contour'):
             cid = contour_t.attrib["id"]
             contour = Contour(cid)
             scaled_contour = Contour(cid)
             print("cid = {}".format(int(cid)))
-            print(scale_factors)
             scale = scale_factors[int(cid)]
 
             ## Iterate over control points. 
