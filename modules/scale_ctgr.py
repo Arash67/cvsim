@@ -134,7 +134,7 @@ def scale_factor_test(number_of_contours,scale_par):
     print(scale_factor)
     return scale_factor
 
-def read_ctgr_file(file_name, scale_par, contour_ids):
+def read_ctgr_file(file_name, scale_par):
     print(scale_par)
     # Remove 'format' tag from xml file.
     f = open(file_name, "r")
@@ -266,7 +266,7 @@ def create_graphics_geometry(geom):
     actor.SetMapper(mapper)
     return actor
 
-def main(vtp_file_name,ctgr_file_name,contour_scale, contour_ids):
+def main(vtp_file_name,ctgr_file_name,contour_scale):
 
     # Create renderer and graphics window.
     renderer = vtk.vtkRenderer()
@@ -285,7 +285,7 @@ def main(vtp_file_name,ctgr_file_name,contour_scale, contour_ids):
     renderer.AddActor(surface_geom)
 
     # Read the contours .ctgr file.
-    contour_groups, scaled_contour_groups = read_ctgr_file(ctgr_file_name, contour_scale, contour_ids)
+    contour_groups, scaled_contour_groups = read_ctgr_file(ctgr_file_name, contour_scale)
 
     # Create contour geometry.
     for contour_group in contour_groups:
