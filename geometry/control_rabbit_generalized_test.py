@@ -14,7 +14,7 @@ scale_factor = 0.7
 contour_ids    = [5,6]
 # other local modules
 vmanip_dir                   = cvsim + "modules/"
-print("control_point_manipulation:")
+print("scale_ctgr:")
 print(vmanip_dir)
 try:
     sys.path.insert(1, vmanip_dir)
@@ -22,4 +22,4 @@ except:
     print("Can't find the modules/graphics package. this package is orginialy from simvascular repository: SimVascular-Tests > new-api-tests > graphics")
 import scale_ctgr as sc
 
-sc.main(vtp_file_name,ctgr_filename,scale_factor,contour_ids)
+sc.main(vtp_file_name,ctgr_file_name,scale_factor,contour_ids)
