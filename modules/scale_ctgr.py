@@ -158,7 +158,7 @@ def read_ctgr_file(file_name, scale_par):
         path_name = contour_group_t.attrib["path_name"]
         contour_group = ContourGroup(path_name)
         scaled_contour_group = ContourGroup(path_name)
-        num_contours = len(contour_group_t)
+        num_contours = len(contour_group_t.iter('contour'))
         # print("number of contours: {}".format(num_contours))
         scale_factors                       = scale_factor_test(num_contours,scale_par)
         # print("scale factor")
