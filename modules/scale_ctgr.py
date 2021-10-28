@@ -104,15 +104,15 @@ def scale_factor_test(number_of_contours,scale_par):
     center_id                       = center_id + center_dislocation
     number_of_proximal_contours     = center_id - start_id
     number_of_distal_contours       = stop_id - center_id
-    #print("Start ID: {0:d}".format(start_id))
-    #print("Center ID: {0:d}".format(center_id))
-    #print("Stop ID: {0:d}".format(stop_id))
+    print("Start ID: {0:d}".format(start_id))
+    print("Center ID: {0:d}".format(center_id))
+    print("Stop ID: {0:d}".format(stop_id))
     prox_scale_factors              = []
     dist_scale_factors              = []
-    #print("Total contour numbers: {0:d}".format(number_of_contours))
-    #print("Total modified contours: {0:d}".format(length_id))
-    #print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
-    #print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
+    print("Total contour numbers: {0:d}".format(number_of_contours))
+    print("Total modified contours: {0:d}".format(length_id))
+    print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
+    print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
     for i in range(number_of_proximal_contours):
         prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i+1,steepness,x50))
     for s in range(number_of_distal_contours):
@@ -121,10 +121,10 @@ def scale_factor_test(number_of_contours,scale_par):
     dist_scale_factors                       = np.sort(dist_scale_factors)
     # sort in descending order
     # dist_scale_factors                     = np.sort(dist_scale_factors)[::-1] 
-    # print("Proximal scale factor list:")
-    # print(prox_scale_factors)
-    # print("Distal scale factor list:")
-    # print(dist_scale_factors)
+    print("Proximal scale factor list:")
+    print(prox_scale_factors)
+    print("Distal scale factor list:")
+    print(dist_scale_factors)
     scale_factor_local                      = np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
     indx_counter                            = 0
     scale_factor                = scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id)
