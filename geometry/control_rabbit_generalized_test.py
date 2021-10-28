@@ -7,7 +7,7 @@ cvsimout                = home + "/github/outofsource/cvsimout/"
 input_dir                    = "data/input/"
 output_dir                   = cvsimout
 
-ctgr_file_name  = input_dir + "control_rabbit_32181_S01AO.ctgr"
+ctgr_file_name  = cvsim + input_dir + "control_rabbit_32181_S01AO.ctgr"
 vtp_file_name   = output_dir + "Case_1_AO_mesh_complete_exterior.vtp"
 
 scale_factor = 0.7
