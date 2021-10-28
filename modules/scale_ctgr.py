@@ -74,10 +74,18 @@ def scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id):
                 scale_factor[sid]       = 1
         else:
             scale_factor[sid]           = 1
-    print("number of updated contours: {0:d}".format(indx_counter))
+    # print("number of updated contours: {0:d}".format(indx_counter))
     return scale_factor
 
 def scale_factor_test(number_of_contours,scale_par):
+    
+    # check
+    print("scale_factor_test inputs:")
+    print("contour numbers: {}".format(number_of_contours))
+    print("scale_par: ")
+    print(scale_par)
+    
+    # function
     length_id = scale_par[0]
     maximum_diameter_change = scale_par[1]
     asymetry_coef = scale_par[2]
@@ -96,15 +104,15 @@ def scale_factor_test(number_of_contours,scale_par):
     center_id                       = center_id + center_dislocation
     number_of_proximal_contours     = center_id - start_id
     number_of_distal_contours       = stop_id - center_id
-    print("Start ID: {0:d}".format(start_id))
-    print("Center ID: {0:d}".format(center_id))
-    print("Stop ID: {0:d}".format(stop_id))
+    #print("Start ID: {0:d}".format(start_id))
+    #print("Center ID: {0:d}".format(center_id))
+    #print("Stop ID: {0:d}".format(stop_id))
     prox_scale_factors              = []
     dist_scale_factors              = []
-    print("Total contour numbers: {0:d}".format(number_of_contours))
-    print("Total modified contours: {0:d}".format(length_id))
-    print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
-    print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
+    #print("Total contour numbers: {0:d}".format(number_of_contours))
+    #print("Total modified contours: {0:d}".format(length_id))
+    #print("Proximal contour numbers: {0:d}".format(number_of_proximal_contours))
+    #print("Distal contour numbers: {0:d}".format(number_of_distal_contours))
     for i in range(number_of_proximal_contours):
         prox_scale_factors.append(sigmoid(maximum_diameter_change,number_of_proximal_contours,i+1,steepness,x50))
     for s in range(number_of_distal_contours):
@@ -113,13 +121,17 @@ def scale_factor_test(number_of_contours,scale_par):
     dist_scale_factors                       = np.sort(dist_scale_factors)
     # sort in descending order
     # dist_scale_factors                     = np.sort(dist_scale_factors)[::-1] 
-    print("Proximal scale factor list:")
-    print(prox_scale_factors)
-    print("Distal scale factor list:")
-    print(dist_scale_factors)
+    # print("Proximal scale factor list:")
+    # print(prox_scale_factors)
+    # print("Distal scale factor list:")
+    # print(dist_scale_factors)
     scale_factor_local                      = np.concatenate((prox_scale_factors,dist_scale_factors),axis=None)
     indx_counter                            = 0
     scale_factor                = scale_factor_insert(scale_factor,scale_factor_local,start_id,stop_id)
+    
+    # check
+    print("scale_factor_test outputs:")
+    print(scale_factor)
     return scale_factor
 
 def read_ctgr_file(file_name, scale_par, contour_ids):
@@ -147,10 +159,10 @@ def read_ctgr_file(file_name, scale_par, contour_ids):
         contour_group = ContourGroup(path_name)
         scaled_contour_group = ContourGroup(path_name)
         num_contours = len(contour_group_t)
-        print("number of contours: {}".format(num_contours))
+        # print("number of contours: {}".format(num_contours))
         scale_factors                       = scale_factor_test(num_contours,scale_par)
-        print("scale factor")
-        print(scale_factors)
+        # print("scale factor")
+        # print(scale_factors)
         for contour_t in contour_group_t.iter('contour'):
             cid = contour_t.attrib["id"]
             contour = Contour(cid)
