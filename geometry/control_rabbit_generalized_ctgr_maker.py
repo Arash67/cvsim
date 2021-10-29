@@ -1,8 +1,36 @@
 
+# A:======================================================= GENERAL
+# The purpose is to create a parametrized model of the CoA and concomitant anomalies...
+# often coexisting with it such as:
+#       dilated ascending aorta, 
+#       hypoplastic aortic arch,
+#       aortic isthmus hypoplasia,
+#       long-segment CoA
+# 
+# NOTE: Run this script in the python console in SimVascular GUI  
+# NOTE: This script assumes the cvsim repository is mounted on an ubuntu os in the following directory:
+#       /home/ubuntu_username/github/
+#
+# NOTE: To mount github repository on local computer please read the git_installation.txt file in:
+#       cvsim/documentations/ubuntu/git_installation.txt
+#
+# NOTE: You will need SimVascular installed on Ubuntu (for windows users its most easy through hyper-v manager),
+# NOTE: To install ubuntu on hyper-v please see the instructions in hyperv_instructions.txt at:
+#       cvsim/documentations/mswindows/hyperv_instructions.txt
+#
+# NOTE: additional instructions are included within the script
 
-# NOTE: add Path from pathlib, add additional notes heare if needed
+
+# ABREVIATIONS:------------------------------------------
+# 
+#               Aorta                               (AO)
+#               
+#--------------------------------------------------------
+
+# B:======================================================= START
+
 from pathlib import Path
-# define the local home and repository directories plus out of source directory for outputs not needed to be uploaded to the source repository 
+# define the local home and repository directories plus out-of-source directory for outputs not needed to be uploaded to the source repository 
 home                    = str(Path.home())
 cvsim                   = home + "/github/cvsim/"
 cvsimout                = home + "/github/outofsource/cvsimout/"
