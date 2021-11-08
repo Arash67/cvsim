@@ -47,13 +47,19 @@ length_id                   = 8
 perc_diameter_reduction     = 70
 scale_id                    = perc_diameter_reduction/100
 # longitudinal asymetry (-1 indicating narrowing toward proximal, 0 indicating symmetric narrowing, 1 toward the distal)
-long_asym_id                = 0
+long_asym_id                = 0.0
 # narrowing location identified by control point id
 control_point_id            = 16
+
 # steepness
+    # AIH
+# steepness                   = 1.1
+    # CoA
 steepness                   = 1.5
+
+
 # x50 between zero and 1 with zero indicating longer CoA and 1 indicating discrete COA
-x50                         = 0.7
+x50                         = 0.1
 
 AO_manip_par                = [length_id,scale_id,long_asym_id,control_point_id,steepness,x50]
 
