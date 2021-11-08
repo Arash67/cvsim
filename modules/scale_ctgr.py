@@ -13,7 +13,8 @@
 #--------------------------------------------------------
 # ABREVIATIONS:
 #               Aorta                               (AO)
-
+#               Aortic isthmus hypoplasia           (AIH)
+#               
 #--------------------------------------------------------
 
 # B:======================================================= START
@@ -162,6 +163,15 @@ def read_ctgr_file(file_name, scale_par):
         for i in contour_group_t.iter('contour'):num_contours += 1
         # print("number of contours: {}".format(num_contours))
         scale_factors                       = scale_factor_test(num_contours,scale_par)
+        scale_factor_90perc_discrete_CoA = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.9433239795487032, 0.7916723051491159, 0.4830017348695068, 0.2276659584104389, 0.4830017348695068, 0.7916723051491159, 0.9433239795487032, 1, 1, 1, 1, 1, 1.0]
+        scale_factor_70perc_discrete_CoA = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.9559186507601024, 0.8379673484493123, 0.5978902382318387, 0.3992957454303414, 0.5978902382318387, 0.8379673484493123, 0.9559186507601024, 1, 1, 1, 1, 1, 1.0]
+        scale_factor_AIH                 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.8751300527975588, 0.75, 0.6248699472024412, 0.5498752445598426, 0.6248699472024412, 0.75, 0.8751300527975588, 1, 1, 1, 1, 1, 1, 1, 1.0]
+        scale_factor_TAH                 = [1, 1, 1, 1, 1, 1, 1, 0.8170677955054003, 0.6829322044945996, 0.5805544747882927, 0.6829322044945996, 0.8170677955054003, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.0]
+        
+        # CoA with TAH
+        scale_factors = np.dot(scale_factors,scale_factor_TAH)
+        # CoA with AIH
+        # scale_factors = np.dot(scale_factors,scale_factor_AIH)
         # print("scale factor")
         # print(scale_factors)
         for contour_t in contour_group_t.iter('contour'):
