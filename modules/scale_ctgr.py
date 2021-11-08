@@ -173,7 +173,7 @@ def read_ctgr_file(file_name, scale_par):
         #print(scale_factors)
         #print("initial scale factor TAH length: {0:d}".format(len(scale_factor_TAH)))
         #print(scale_factor_TAH)
-        scale_factors = np.multiply(scale_factors,scale_factor_TAH)
+        #scale_factors = np.multiply(scale_factors,scale_factor_TAH)
         scale_factors = np.multiply(scale_factors,scale_factor_AIH)
         #print("final scale factor length: {0:d}".format(len(scale_factors)))
         #print(scale_factors)
