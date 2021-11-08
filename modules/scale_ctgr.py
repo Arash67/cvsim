@@ -169,9 +169,12 @@ def read_ctgr_file(file_name, scale_par):
         scale_factor_TAH                 = [1, 1, 1, 1, 1, 1, 1, 0.8170677955054003, 0.6829322044945996, 0.5805544747882927, 0.6829322044945996, 0.8170677955054003, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.0]
         
         # CoA with TAH
+        print("initial scale factor length: {0:d}".format(len(scale_factors)))
         print(scale_factors)
+        print("initial scale factor TAH length: {0:d}".format(len(scale_factor_TAH)))
         print(scale_factor_TAH)
-        # scale_factors = np.dot(scale_factors,scale_factor_TAH)
+        scale_factors = np.multiply(scale_factors,scale_factor_TAH)
+        print("final scale factor length: {0:d}".format(len(scale_factors)))
         print(scale_factors)
         # CoA with AIH
         # scale_factors = np.dot(scale_factors,scale_factor_AIH)
